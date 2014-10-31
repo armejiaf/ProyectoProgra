@@ -16,11 +16,7 @@ namespace DatabaseDeployer
 
         public void Seed()
         {
-            var operaciones = Builder<Operaciones>.CreateListOfSize(5).Build();
-            foreach (var operacion in operaciones)
-            {
-                _session.Save(operacion);
-            }
+
         }
     }
 }
