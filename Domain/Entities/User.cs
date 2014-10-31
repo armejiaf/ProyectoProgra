@@ -15,9 +15,9 @@
         }
 
         public virtual string Nombre{get; set; }
-        public virtual string Apellido { get; set; }
         public virtual string Correo { get; set; }
         public virtual string Password { get; set; }
+        public virtual string Salt { get; set; }
 
     }
 }
