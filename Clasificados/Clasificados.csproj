@@ -151,10 +151,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
+    <Compile Include="Extensions\NotificationExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mail\MailService.cs" />
+    <Compile Include="Models\QuestionDetailModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserRecoverPasswordModel.cs" />
@@ -204,6 +206,8 @@
     <Content Include="Views\Home\RecoverPassword.cshtml" />
     <Content Include="Views\Options\TermsConditions.cshtml" />
     <Content Include="Views\Options\FrequentQuestions.cshtml" />
+    <Content Include="Views\Shared\_Notifications.cshtml" />
+    <Content Include="Views\Options\Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

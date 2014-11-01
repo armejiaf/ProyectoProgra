@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Windows.Forms;
+using Clasificados.Extensions;
 using Clasificados.Mail;
 using Clasificados.Models;
 using Domain.Entities;
@@ -63,7 +64,7 @@ namespace Clasificados.Controllers
             var user = _readOnlyRepository.FirstOrDefault<User>(x => x.Correo == register.Correo);
             if (user != null)
             {
-                MessageBox.Show("Usuario ya existe!");
+                this.AddNotification("Usuario ya existe!", NotificationType.Warning);
                 return View(register);
             }
             MailService.SendGreetingMessage(register.Correo,register.Nombre,register.Password);
@@ -73,7 +74,7 @@ namespace Clasificados.Controllers
             usuario.Password = register.Password;
             usuario.Salt = register.Salt;
             _writeOnlyRepository.Create(usuario);
-            MessageBox.Show("Se ha registrado exitosamente.");
+            this.AddNotification("Se ha registrado exitosamente.", NotificationType.Success);
             return RedirectToAction("Login");
         }
 
@@ -88,7 +89,7 @@ namespace Clasificados.Controllers
             var usuario = _readOnlyRepository.FirstOrDefault<User>(x => x.Correo == login.Correo);
             if (usuario == null)
             {
-                MessageBox.Show("Correo Electrónico incorrecto!");
+                this.AddNotification("Correo Electrónico incorrecto!", NotificationType.Error);
                 return View();
             }
             var verification = new UserRegisterModel
@@ -108,7 +109,7 @@ namespace Clasificados.Controllers
             login.Password = verification.Password;
             if (usuario.Password != login.Password)
             {
-                MessageBox.Show("Usuario o Contraseña incorrectos!");
+                this.AddNotification("Usuario o Contraseña incorrectos!", NotificationType.Error);
                 return View();
             }
 
@@ -126,7 +127,7 @@ namespace Clasificados.Controllers
             var user = _readOnlyRepository.FirstOrDefault<User>(x=>x.Correo==userRecover.Correo);
             if (user == null)
             {
-                MessageBox.Show("Correo Electrónico incorrecto!");
+                this.AddNotification("Correo Electrónico incorrecto!", NotificationType.Error);
                 return View();
             }
             userRecover.Password = Guid.NewGuid().ToString().Substring(0, 8);
@@ -145,11 +146,11 @@ namespace Clasificados.Controllers
             return RedirectToAction("Login");
         }
 
-        private static bool ValidateLogin(UserRegisterModel verification)
+        private bool ValidateLogin(UserRegisterModel verification)
         {
             if (String.IsNullOrEmpty(verification.Correo) || String.IsNullOrEmpty(verification.Password))
             {
-                MessageBox.Show("Todos los campos son requeridos!");
+                this.AddNotification("Todos los campos son requeridos!", NotificationType.Error);
                 return false;
             }
             switch (ValidateEmail(verification.Correo))
@@ -157,7 +158,7 @@ namespace Clasificados.Controllers
                 case true:
                     break;
                 case false:
-                    MessageBox.Show("Correo Electrónico no valido!");
+                    this.AddNotification("Correo Electrónico no valido!", NotificationType.Error);
                     return false;
             }
             return true;
@@ -172,12 +173,12 @@ namespace Clasificados.Controllers
             return false;
         }
 
-        private static bool ValidateNewUser(UserRegisterModel register)
+        private bool ValidateNewUser(UserRegisterModel register)
         {
             if (string.IsNullOrEmpty(register.Nombre) || string.IsNullOrEmpty(register.Correo)
                 || string.IsNullOrEmpty(register.Password) || string.IsNullOrEmpty(register.ConfirmPassword))
             {
-                MessageBox.Show("Todo los campos son requeridos!");
+                this.AddNotification("Todo los campos son requeridos!", NotificationType.Error);
                 return false;
             }
             switch (ValidateEmail(register.Correo))
@@ -185,27 +186,27 @@ namespace Clasificados.Controllers
                 case true:
                     break;
                 case false:
-                    MessageBox.Show("Correo Electrónico no valido!");
+                    this.AddNotification("Correo Electrónico no valido!", NotificationType.Error);
                     return false;
             }
             if (register.Nombre.Length < 3 || register.Nombre.Length > 50)
             {
-                MessageBox.Show("El nombre de tener mas de 3 caracteres y menos de 50!");
+                this.AddNotification("El nombre debe tener mas de 3 caracteres y menos de 50!", NotificationType.Error);
                 return false;
             }
             if (register.Password != register.ConfirmPassword)
             {
-                MessageBox.Show("Las contraseñas no coinciden!");
+                this.AddNotification("Las contraseñas no coinciden!", NotificationType.Error);
                 return false;
             }
             if (register.Password.Length < 8 || register.Password.Length > 20)
             {
-                MessageBox.Show("La contraseña debe tener mas de 8 caracteres y menos de 20!");
+                this.AddNotification("La contraseña debe tener mas de 8 caracteres y menos de 20!", NotificationType.Error);
                 return false;
             }
             if (register.Password.Any(t => !Char.IsLetterOrDigit(t)))
             {
-                MessageBox.Show("La contraseña solo puede tener numeros y letras!");
+                this.AddNotification("La contraseña solo puede tener numeros y letras!", NotificationType.Error);
                 return false;
             }
             return true;

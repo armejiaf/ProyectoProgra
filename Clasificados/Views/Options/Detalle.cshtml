@@ -1,0 +1,25 @@
+﻿@model Clasificados.Models.QuestionDetailModel
+
+
+<h2 style="text-align: center">Detalle de Pregunta</h2>
+<div class="container">
+    <div class="row">
+        @Html.LabelFor(x => x.Id)
+        @Html.ValueFor(x => x.Id)
+    </div>
+    <div class="row">
+        @Html.Label("Fecha Creacion ")
+        @Html.ValueFor(x => x.Fecha)
+    </div>
+    <div class="row">
+        @Html.LabelFor(x=>x.Pregunta)
+        @Html.ValueFor(x => x.Pregunta)
+    </div>
+    <div class="row">
+        @Html.LabelFor(x=>x.Respuesta)
+        @Html.ValueFor(x => x.Respuesta)
+    </div>
+    
+    @Html.Partial("_Notifications")
+</div>
+
