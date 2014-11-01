@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
+        <title>Clasificados</title>
         <meta charset="utf-8" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
-    <body style="background-image: url(~/images/parallax.jpg)">
+    <body>
     <div class="navbar navbar-inverse navbar-fixed-top" >
         <div class="navbar-header">
             <a class="navbar-brand" >Clasificados</a>
@@ -22,6 +22,18 @@
                 <li>
                     @Html.ActionLink("Contactanos","Contact","Home")
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white">Opciones <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+
+                        </li>
+                        <li>@Html.ActionLink("Terminos y Condiciones","TermsConditions","Options")</li>
+                        <li>@Html.ActionLink("Preguntas Frecuentes","FrequentQuestions","Options")</li>
+                        <li class="divider"></li>
+                        <li><a href="#">Action</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -32,8 +44,6 @@
                         </li>
                         <li>@Html.ActionLink("Login","Login","Home")</li>
                         <li>@Html.ActionLink("Registrarse","Register","Home")</li>
-                        <li class="divider"></li>
-                        <li><a href="#">FAQ</a></li>
                     </ul>
                 </li>
             </ul>

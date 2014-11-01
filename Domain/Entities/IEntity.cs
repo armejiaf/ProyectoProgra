@@ -10,7 +10,7 @@ namespace Domain.Entities
     {
         long Id { get; set; }
 
-        bool Archived { get; }
+        bool Archived { get; set; }
 
         void Archive();
 

@@ -20,7 +20,7 @@ namespace Data
 
         public T First<T>(Expression<Func<T, bool>> query) where T : class, IEntity
         {
-            T item = _session.QueryOver<T>().Where(query).List().FirstOrDefault();
+            var item = _session.QueryOver<T>().Where(query).List().FirstOrDefault();
 
             if (item == null)
             {
@@ -32,7 +32,7 @@ namespace Data
 
         public T FirstOrDefault<T>(Expression<Func<T, bool>> query) where T : class, IEntity
         {
-            T item = _session.QueryOver<T>().Where(query).List().FirstOrDefault();
+            var item = _session.QueryOver<T>().Where(query).List().FirstOrDefault();
             return item;
         }
 

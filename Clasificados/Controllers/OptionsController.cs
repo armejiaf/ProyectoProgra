@@ -14,6 +14,10 @@ namespace Clasificados.Controllers
             return View();
         }
 
+        public ActionResult FrequentQuestions()
+        {
+            return View();
+        }
     
     }
 }

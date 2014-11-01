@@ -8,8 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Windows.Forms;
+using Clasificados.Mail;
 using Clasificados.Models;
-using Clasificados.Views.Mail;
 using Domain.Entities;
 using Domain.Services;
 using RestSharp.Extensions;
@@ -52,6 +52,7 @@ namespace Clasificados.Controllers
         {
             var usuario = new User();
             var valid = ValidateNewUser(register);
+            
             switch (valid)
             {
                 case true:
@@ -59,7 +60,13 @@ namespace Clasificados.Controllers
                 case false:
                     return View(register);
             }
-            MailService.SendGreetingMessage(register);
+            var user = _readOnlyRepository.FirstOrDefault<User>(x => x.Correo == register.Correo);
+            if (user != null)
+            {
+                MessageBox.Show("Usuario ya existe!");
+                return View(register);
+            }
+            MailService.SendGreetingMessage(register.Correo,register.Nombre,register.Password);
             EncryptRegister(register);
             usuario.Nombre = register.Nombre;
             usuario.Correo = register.Correo;
@@ -127,12 +134,12 @@ namespace Clasificados.Controllers
             var verification = new UserRegisterModel
             {
                 Nombre = user.Nombre,
-                Password = userRecover.Password,
+                Password =userRecover.Password,
                 Correo=user.Correo
             };
             EncryptRegister(verification);
             user.Password = verification.Password;
-            MailService.SendRestorePassMessage(userRecover);
+            MailService.SendRestorePassMessage(userRecover.Correo,userRecover.Nombre,userRecover.Password);
             _writeOnlyRepository.Update(user);
 
             return RedirectToAction("Login");
