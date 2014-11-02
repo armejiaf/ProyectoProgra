@@ -4,13 +4,13 @@ using DomainDrivenDatabaseDeployer;
 using FizzWare.NBuilder;
 using NHibernate;
 
-namespace DatabaseDeployer
+namespace DatabaseDeployer.Seeders
 {
-    class OperacionesSeeder : IDataSeeder
+    class QuestionAnswerSeeder : IDataSeeder
     {
         readonly ISession _session;
 
-        public OperacionesSeeder(ISession session)
+        public QuestionAnswerSeeder(ISession session)
         {
             _session = session;
         }

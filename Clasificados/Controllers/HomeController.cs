@@ -28,20 +28,25 @@ namespace Clasificados.Controllers
             _readOnlyRepository = readOnlyRepository;
             _writeOnlyRepository = writeOnlyRepository;
         }
-
+       
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
+            if (Session["User"] == null)
+            {
+                Session["User"] = "Anonymous";
+            }
+                
             return View();
         }
 
         public ActionResult Contact()
         {
             return View(new ContactModel());
+        }
+
+        public ActionResult CreateItem()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -145,7 +150,7 @@ namespace Clasificados.Controllers
                 this.AddNotification("Usuario o Contraseña incorrectos!", NotificationType.Error);
                 return View();
             }
-
+            Session["User"] = usuario.Nombre;
             return RedirectToAction("Index");
         }
 
@@ -179,7 +184,11 @@ namespace Clasificados.Controllers
             return RedirectToAction("Login");
         }
 
-
+        public ActionResult Logout()
+        {
+            Session["User"] = "Anonymous";
+            return RedirectToAction("Index");
+        }
         private bool ValidateContact(ContactModel contact)
         {
             if (String.IsNullOrEmpty(contact.Correo) || String.IsNullOrEmpty(contact.Nombre) ||

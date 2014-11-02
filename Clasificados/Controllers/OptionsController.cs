@@ -94,7 +94,7 @@ namespace Clasificados.Controllers
             var x = question.Nombre.Replace(" ", string.Empty);
             if (x.Any(t => !Char.IsLetter(t)))
             {
-                this.AddNotification("El Nombre solo puede llevar letras!",NotificationType.Error);
+                this.AddNotification("El nombre solo puede llevar letras!",NotificationType.Error);
                 return false;
             }
             if (question.Nombre.Length < 3 || question.Nombre.Length > 50)

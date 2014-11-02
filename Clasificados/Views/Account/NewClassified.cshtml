@@ -1,0 +1,143 @@
+﻿@model Clasificados.Models.ClassifiedModel
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Nuevo Clasificado</title>
+    </head>
+    <body>
+        <div class="container">
+            <h3 class="text-center">Crear Clasificado</h3>
+            @Html.Partial("_Notifications")
+            <div class="row">
+                <form role="form" method="POST">
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Titulo del Clasificado:</label>
+                            <input id="name" name="Titulo" type="text" placeholder="Ingrese nombre de Titulo..." class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Categoria:</label>
+                            @Html.DropDownListFor(x => x.Categoria, new SelectList(
+                            new List<object>
+                            {
+                                new {value="Bienes Raices",text="Bienes Raices"},
+                                new {value="Automovil",text="Automovil"},
+                                new{value="Nautica",text="Nautica"},
+                                new{value="Computación",text="Computación"},
+                                new{value="Joyería",text="Joyería"},
+                                new{value="Música",text="Música"},
+                                new{value="Árte",text="Árte"},
+                                new{value="Hogar",text="Hogar"},
+                                new{value="Deportes",text="Deportes"},
+                                new{value="Telefonía",text="Telefonía"},
+                                new{value="Animales",text="Animales"}
+                            }, "value", "text", 11))
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Tipo de Negocio:</label>
+                            @Html.DropDownListFor(x => x.Negocio, new SelectList(
+                            new List<object>
+                            {
+                                new {value="Venta",text="Venta"},
+                                new {value="Renta",text="Renta"},
+                                new{value="Compra",text="Compra"}
+                            }, "value", "text", 3))
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Precio:</label>
+                            <input id="text" name="Precio" type="text" placeholder="Precio" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlImagen 1:</label>
+                            <input id="Url0" name="UrlImg0" type="text" placeholder="Url Imagen" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlImagen 2:</label>
+                            <div class="row">
+                                <input type="radio" name="type" value="Enable" onclick="document.getElementById('Url1').removeAttribute('disabled')">Habilitar
+                                <input type="radio" name="type" value="Disable" onclick="document.getElementById('Url1').disabled=true">Deshabilitar
+                            </div>
+                            <input id="Url1" name="UrlImg1" type="text" placeholder="Url Imagen" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlImagen 3:</label>
+                            <div class="row">
+                                <input type="radio" name="type" value="Enable" onclick="document.getElementById('Url2').removeAttribute('disabled')">Habilitar
+                                <input type="radio" name="type" value="Disable" onclick="document.getElementById('Url2').disabled = true">Deshabilitar
+                            </div>
+                            <input id="Url2" name="UrlImg2" type="text" placeholder="Url Imagen" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlImagen 4:</label>
+                            <div class="row">
+                                <input type="radio" name="type" value="Enable" onclick="document.getElementById('Url3').removeAttribute('disabled')">Habilitar
+                                <input type="radio" name="type" value="Disable" onclick="document.getElementById('Url3').disabled = true">Deshabilitar
+                            </div>
+                            <input id="Url3" name="UrlImg3" type="text" placeholder="Url Imagen" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlImagen 5:</label>
+                            <div class="row">
+                                <input type="radio" name="type" value="Enable" onclick="document.getElementById('Url4').removeAttribute('disabled')">Habilitar
+                                <input type="radio" name="type" value="Disable" onclick="document.getElementById('Url4').disabled = true">Deshabilitar
+                            </div>
+                            <input id="Url4" name="UrlImg4" type="text" placeholder="Url Imagen" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlImagen 6:</label>
+                            <div class="row">
+                                <input type="radio" name="type" value="Enable" onclick="document.getElementById('Url5').removeAttribute('disabled')">Habilitar
+                                <input type="radio" name="type" value="Disable" onclick="document.getElementById('Url5').disabled = true">Deshabilitar
+                            </div>
+                            <input id="Url5" name="UrlImg5" type="text" placeholder="Url Imagen" class="form-control" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>UrlVideo de Youtube:</label>
+                            <input id="text" name="UrlVideo" type="text" placeholder="Url Video" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <textarea class="form-control" id="message" name="Descripcion" placeholder="Ponga una descripcion aqui..." rows="5"></textarea>
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <button type="submit" class="btn btn-lg" style="background: transparent;border: 1px solid black">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+

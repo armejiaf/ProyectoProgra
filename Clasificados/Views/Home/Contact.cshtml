@@ -31,7 +31,11 @@
 
     <body>
         <div id="googleMap" style="width:1100px;height:380px;margin-top: 10px" ></div>
-    
+        <p style="text-align: center;font-size: medium">
+            En nuestra pagina ustedes podran subir clasificados de los articulos que ustedes quieran vender
+            segun y como esta estipulado en nuestros terminos y condiciones. Asi que pueden registrarse e ingresar a 
+            nuestra pagina para comenzar su vida como comerciantes. Espero que disfruten y logren encontrar lo que desean.
+        </p>
         <address style="text-align: center">
             <strong>Clasificados S.A.<br /></strong>
             Honduras<br />
@@ -68,11 +72,10 @@
                         </div>
                     </div>
                     <div style="margin-left: 450px">
-                        @Html.Label("CaptchaCode", "Retype the code from the picture:")
                         @{ var contactCaptcha = CaptchaHelper.GetSampleCaptcha(); }
                         @Html.Captcha(contactCaptcha)
                         <div style="margin-top: 10px"></div>
-                        @Html.TextBox("CaptchaCode")
+                        <input id="CaptchaCode" name="CaptchaCode" type="text" placeholder="Ingrese Captcha aqui..." class="form-control">
                         <div style="margin-top: 10px"></div>
                     </div>
                     

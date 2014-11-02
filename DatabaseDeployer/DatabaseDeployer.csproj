@@ -66,9 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OperacionesSeeder.cs" />
+    <Compile Include="Seeders\QuestionAnswerSeeder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seeders\UserSeeder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
