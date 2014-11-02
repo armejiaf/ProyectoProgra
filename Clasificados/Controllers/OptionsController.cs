@@ -46,8 +46,7 @@ namespace Clasificados.Controllers
         [HttpPost]
         public ActionResult FrequentQuestions(QuestionModel question)
         {
-            var validation = ValidateQuestion(question);
-            switch (validation)
+            switch (ValidateQuestion(question))
             {
                 case true:
                     break;

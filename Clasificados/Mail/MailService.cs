@@ -77,5 +77,29 @@ namespace Clasificados.Mail
             request.Method = Method.POST;
             client.Execute(request);
         }
+
+        public static void SendContactMessage(string correo, string nombre, string mensaje)
+        {
+            var client = new RestClient
+            {
+                BaseUrl = "https://api.mailgun.net/v2",
+                Authenticator =
+                    new HttpBasicAuthenticator("api",
+                    "key-f32fda75e27073a696d42c8ed5c999d2")
+            };
+
+            var request = new RestRequest();
+            request.AddParameter("domain",
+            "app030ec7dc101b40c48a43d1e02635ebc0.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            var email = "<" + correo + ">";
+            request.AddParameter("from", nombre + email);
+            request.AddParameter("to", "mejia561@hotmail.com");
+            request.AddParameter("subject", "Contacto Informacion");
+            var message = mensaje;
+            request.AddParameter("html", "<html>" + message);
+            request.Method = Method.POST;
+            client.Execute(request);
+        }
     }
 }

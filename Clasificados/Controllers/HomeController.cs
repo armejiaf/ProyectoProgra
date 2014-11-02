@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Windows.Forms;
+using BotDetect.Web.UI.Mvc;
 using Clasificados.Extensions;
 using Clasificados.Mail;
 using Clasificados.Models;
@@ -40,8 +41,40 @@ namespace Clasificados.Controllers
 
         public ActionResult Contact()
         {
-            return View();
+            return View(new ContactModel());
         }
+
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "SampleCaptcha", "Incorrect CAPTCHA code!")]
+        public ActionResult Contact(ContactModel contact)
+        {
+
+            if (ModelState.IsValid)
+            {
+                switch (ValidateContact(contact))
+                {
+                    case true:
+                        break;
+                    case false:
+                        return View(contact);
+                }
+
+                var contt = new ContactInfo
+                {
+                    Nombre = contact.Nombre,
+                    Correo = contact.Correo,
+                    Mensaje = contact.Mensaje
+                };
+                _writeOnlyRepository.Create(contt);
+                MailService.SendContactMessage(contact.Correo, contact.Nombre, contact.Mensaje);
+                this.AddNotification("Se ha recibido el mensaje.", NotificationType.Success);
+                return View(contact);
+            }
+            this.AddNotification("Captcha incorrecto!",NotificationType.Error);
+            return View(contact);
+
+        }
+
 
         public ActionResult Register()
         {
@@ -146,6 +179,44 @@ namespace Clasificados.Controllers
             return RedirectToAction("Login");
         }
 
+
+        private bool ValidateContact(ContactModel contact)
+        {
+            if (String.IsNullOrEmpty(contact.Correo) || String.IsNullOrEmpty(contact.Nombre) ||
+                String.IsNullOrEmpty(contact.Mensaje))
+            {
+                this.AddNotification("Todos los campos son requeridos!", NotificationType.Error);
+                return false;
+            }
+            var x = contact.Nombre.Replace(" ", string.Empty);
+            if (x.Any(t => !Char.IsLetter(t)))
+            {
+                this.AddNotification("El Nombre solo puede llevar letras!", NotificationType.Error);
+                return false;
+            }
+            if (contact.Nombre.Length < 3 || contact.Nombre.Length > 50)
+            {
+                this.AddNotification("El nombre debe tener mas de 3 caracteres y menos de 50!", NotificationType.Error);
+                return false;
+            }
+            var y = contact.Mensaje.Split(null);
+            var count = y.Length;
+            if (count < 3 || contact.Mensaje.Length > 250)
+            {
+                this.AddNotification("La pregunta debe tener al menos 3 palabras y menos de 250 caracteres!",
+                    NotificationType.Error);
+                return false;
+            }
+            switch (ValidateEmail(contact.Correo))
+            {
+                case true:
+                    break;
+                case false:
+                    this.AddNotification("Correo Eletrónico no valido!", NotificationType.Error);
+                    return false;
+            }
+            return true;
+        }
         private bool ValidateLogin(UserRegisterModel verification)
         {
             if (String.IsNullOrEmpty(verification.Correo) || String.IsNullOrEmpty(verification.Password))

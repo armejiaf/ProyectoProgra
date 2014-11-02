@@ -35,10 +35,10 @@ namespace Clasificados
         }
         public static ISessionFactory CreateSessionFactory()
         {
-            string connectionString = ConnectionStrings.Get();
-            MsSqlConfiguration databaseConfiguration = MsSqlConfiguration.MsSql2008.ShowSql().
+            var connectionString = ConnectionStrings.Get();
+            var databaseConfiguration = MsSqlConfiguration.MsSql2008.ShowSql().
                 ConnectionString(x => x.Is(connectionString));
-            ISessionFactory sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration).Build();
+            var sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration).Build();
             return sessionFactory;
         }
         protected override void OnApplicationStarted()
