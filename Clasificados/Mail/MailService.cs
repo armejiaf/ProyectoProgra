@@ -101,5 +101,30 @@ namespace Clasificados.Mail
             request.Method = Method.POST;
             client.Execute(request);
         }
+
+        public static void SendContactMessageToUser(string de, string nombre, string mensaje, string para)
+        {
+            var client = new RestClient
+            {
+                BaseUrl = "https://api.mailgun.net/v2",
+                Authenticator =
+                    new HttpBasicAuthenticator("api",
+                    "key-f32fda75e27073a696d42c8ed5c999d2")
+            };
+
+            var request = new RestRequest();
+            request.AddParameter("domain",
+            "app030ec7dc101b40c48a43d1e02635ebc0.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            var emailfrom = "<" + de + ">";
+            request.AddParameter("from", nombre + emailfrom);
+            var emailto = para;
+            request.AddParameter("to", emailto);
+            request.AddParameter("subject", "Contacto Informacion");
+            var message = mensaje;
+            request.AddParameter("html", "<html>" + message);
+            request.Method = Method.POST;
+            client.Execute(request);
+        }
     }
 }

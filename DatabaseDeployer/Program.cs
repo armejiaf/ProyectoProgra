@@ -14,13 +14,13 @@ namespace DatabaseDeployer
     {
         static void Main(string[] args)
         {
-            string connectionString = ConnectionStrings.Get();
+            var connectionString = ConnectionStrings.Get();
 
-            MsSqlConfiguration databaseConfiguration = MsSqlConfiguration.MsSql2008.ShowSql().
+            var databaseConfiguration = MsSqlConfiguration.MsSql2008.ShowSql().
                 ConnectionString(x => x.Is(connectionString));
 
             DomainDrivenDatabaseDeployer.DatabaseDeployer dd = null;
-            ISessionFactory sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration)
+            var sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration)
                 .Build(cfg => { dd = new DomainDrivenDatabaseDeployer.DatabaseDeployer(cfg); });
 
             dd.Drop();
@@ -30,14 +30,15 @@ namespace DatabaseDeployer
             dd.Create();
             Console.WriteLine("Database created.");
 
-            ISession session = sessionFactory.OpenSession();
-            using (ITransaction tx = session.BeginTransaction())
+            var session = sessionFactory.OpenSession();
+            using (var tx = session.BeginTransaction())
             {
                 dd.Seed(new List<IDataSeeder>
                 {
                     new QuestionAnswerSeeder(session),
                     new UserSeeder(session),
-                    new ObjectSeeder(session)
+                    new ObjectSeeder(session),
+                    new ClassifiedSeeder(session)
                 });
                 tx.Commit();
             }

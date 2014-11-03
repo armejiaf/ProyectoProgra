@@ -1,0 +1,34 @@
+﻿@model Clasificados.Models.SimpleSearchModel
+<script type="text/javascript" src="~/Scripts/Q&A.js"></script>
+<h2 style="text-align: center">Busqueda Simple</h2>
+<form role="form" method="POST">
+    <div class="form-group">
+        <input type="text" name="Search" class="form-control" />
+    </div> 
+    <button type="submit" class="btn" style="background: transparent;border: 1px solid black">Search</button>
+</form>
+
+@Html.Partial("_Notifications")
+
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @foreach (var clasificados in Model.Clasificados)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(clasificados.Titulo, "DetalleCategory", "Options", new { @id = @clasificados.Id }, null)</td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12 text-center">
+        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+    </div>
+</div>

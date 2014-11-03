@@ -1,0 +1,65 @@
+﻿@model Clasificados.Models.AdvanzedSearchModel
+
+<script type="text/javascript" src="~/Scripts/Q&A.js"></script>
+<h2>title</h2>
+<h2 style="text-align: center">Busqueda Avanzada</h2>
+<form role="form" method="POST">
+    <div class="form-group" style="margin-left: 420px">
+        <input type="text" name="Search" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div style="margin-left: 450px">
+            <label>Categoria:</label>
+            @Html.DropDownListFor(x => x.Categoria, new SelectList(
+                new List<object>
+                {
+                    new {value="Bienes Raices",text="Bienes Raices"},
+                    new {value="Automovil",text="Automovil"},
+                    new{value="Nautica",text="Nautica"},
+                    new{value="Computación",text="Computación"},
+                    new{value="Joyería",text="Joyería"},
+                    new{value="Música",text="Música"},
+                    new{value="Arte",text="Árte"},
+                    new{value="Hogar",text="Hogar"},
+                    new{value="Deportes",text="Deportes"},
+                    new{value="Telefonía",text="Telefonía"},
+                    new{value="Animales",text="Animales"}
+                }, "value", "text", 11))
+        </div>
+    </div>
+    <div class="form-group">
+        <div style="margin-left: 400px">
+            <textarea class="form-control" id="message" name="Descripcion" placeholder="Ingrese descripcion aqui..." rows="5"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn" style="margin-left: 500px;background: transparent; border: 1px solid black">Search</button>
+</form>
+
+@Html.Partial("_Notifications")
+
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Categoria</th>
+                    <th>Descripcion</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @foreach (var clasificados in Model.Clasificados)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(clasificados.Titulo, "DetalleCategory", "Options", new { @id = @clasificados.Id }, null)</td>
+                        <td>@clasificados.Categoria</td>
+                        <td>@clasificados.Descripcion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12 text-center">
+        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+    </div>
+</div>

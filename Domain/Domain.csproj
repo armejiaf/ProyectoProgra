@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Classified.cs" />
-    <Compile Include="Entities\ClassifiedImage.cs" />
     <Compile Include="Entities\ContactInfo.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\QuestionAnswer.cs" />

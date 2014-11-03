@@ -51,6 +51,9 @@
     <Reference Include="BotDetect.Web.UI.Mvc">
       <HintPath>..\packages\Captcha.3.0.16.0\lib\net45\BotDetect.Web.UI.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="FizzWare.NBuilder">
+      <HintPath>..\packages\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -164,10 +167,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mail\MailService.cs" />
+    <Compile Include="Models\AdvanzedSearchModel.cs" />
+    <Compile Include="Models\CategryModel.cs" />
     <Compile Include="Models\ClassifiedModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
+    <Compile Include="Models\DetalleCategoryModel.cs" />
+    <Compile Include="Models\IndexModel.cs" />
     <Compile Include="Models\QuestionDetailModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
+    <Compile Include="Models\SimpleSearchModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserRecoverPasswordModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />
@@ -176,6 +184,10 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\DetalleCategory.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Q&amp;A.css" />
     <Content Include="Content\Register.css" />
@@ -187,6 +199,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="connectionStrings.config" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Facebook.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -217,9 +233,12 @@
     <Content Include="Views\Options\FrequentQuestions.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\Options\Detalle.cshtml" />
-    <Content Include="Views\Home\CreateItem.cshtml" />
     <Content Include="Views\Account\NewClassified.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Options\CategoryInfo.cshtml" />
+    <Content Include="Views\Options\DetalleCategory.cshtml" />
+    <Content Include="Views\Options\SimpleSearch.cshtml" />
+    <Content Include="Views\Options\AdvanzedSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

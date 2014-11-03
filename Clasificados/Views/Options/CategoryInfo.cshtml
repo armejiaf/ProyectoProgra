@@ -1,0 +1,84 @@
+﻿@using System.Activities.Statements
+@model Clasificados.Models.CategryModel
+
+<script type="text/javascript" src="~/Scripts/Q&A.js"></script>
+<link type="text/css" rel="stylesheet" href="/Content/TermsConditions.css" />
+<div class="container">
+    <div class="row">
+        <form role="form" method="POST">
+            <div class="container" style="margin-top: 50px">
+                <div style="margin-left: 450px">
+                    <label>Categoria:</label>
+                    @Html.DropDownListFor(x => x.Categoria, new SelectList(
+                        new List<object>
+                        {
+                            new {value="Bienes Raices",text="Bienes Raices"},
+                            new {value="Automovil",text="Automovil"},
+                            new{value="Nautica",text="Nautica"},
+                            new{value="Computación",text="Computación"},
+                            new{value="Joyería",text="Joyería"},
+                            new{value="Música",text="Música"},
+                            new{value="Arte",text="Árte"},
+                            new{value="Hogar",text="Hogar"},
+                            new{value="Deportes",text="Deportes"},
+                            new{value="Telefonía",text="Telefonía"},
+                            new{value="Animales",text="Animales"}
+                        }, "value", "text", 11))
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="margin-left: 450px">
+                    <button type="submit" class="btn btn-sm" style="background: transparent;border: 1px solid black">Submit</button>
+                </div>
+            </div>
+        </form>
+   
+    </div>
+    @Html.Partial("_Notifications")
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha Creacion</th>
+                                <th>Titulo</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @foreach (var clasificados in Model.Clasificados)
+                            {
+                                <tr>
+                                    @if (clasificados.UrlImg0 != "none")
+                                    {
+                                           
+                                        <td>
+                                            <img src="@clasificados.UrlImg0" width="20" height="20" alt="" />
+                                        </td>
+                                        <td>@clasificados.FechaCreacion</td>
+                                        <td>@Html.ActionLink(clasificados.Titulo,"DetalleCategory","Options",new {@id=@clasificados.Id},null)</td>
+                                        <td>@clasificados.Descripcion</td>
+                                        <td>L.@clasificados.Precio</td>
+                                    }
+                                    @if (clasificados.UrlImg0 == "none")
+                                    {
+                                        <td>
+                                            <img src="http://www.theinvestigativemusicologist.com/image.axd?picture=2012%2F7%2Fcreative-commons-public-domain.png" width="20" height="20" alt="" />
+                                        </td>
+                                        <td>@clasificados.FechaCreacion</td>
+                                        <td>@Html.ActionLink(clasificados.Titulo, "DetalleCategory", "Options", new { @id = @clasificados.Titulo }, null).</td>
+                                        <td>@clasificados.Descripcion</td>
+                                        <td>$@clasificados.Precio</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12 text-center">
+                    <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                </div>
+            </div>
+</div>

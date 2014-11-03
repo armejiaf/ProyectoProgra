@@ -1,0 +1,152 @@
+﻿@model Clasificados.Models.DetalleCategoryModel
+
+
+
+<link type="text/css" rel="stylesheet" href="/Content/DetalleCategory.css" />
+<div class="container-fluid">
+    <h3 style="text-align: center">Detalle de Clasificado</h3>
+    <div class="content-wrapper">
+        <div class="item-container">
+            <div class="container">
+                <div>
+                    <div class="product col-md-3 service-image-left">
+
+                        <center>
+                            <img id="item-display" src="@Model.UrlImg0" alt="" />
+                        </center>
+                    </div>
+
+                    <div class="container service1-items col-sm-2 col-md-2 pull-left">
+                        <center>
+                            <a id="item-1" class="service1-item">
+                                <img src="@Model.UrlImg1" alt="" />
+                            </a>
+                            <a id="item-2" class="service1-item">
+                                <img src="@Model.UrlImg2" alt="" />
+                            </a>
+                            <a id="item-3" class="service1-item">
+                                <img src="@Model.UrlImg3" alt="" />
+                            </a>
+                        </center>
+                    </div>
+                </div>
+
+                <div style="margin-left: 450px">
+                    <div class="product-title">@Model.Titulo</div>
+                    <div class="product-desc">@Model.Descripcion</div>
+                </div>
+                <hr>
+                <div class="product-price" style="margin-left: 450px"><strong>Precio: </strong>L.@Model.Precio</div>
+                @if (Model.Archived)
+                {
+                    <div class="product-nostock" style="margin-left: 450px">No Disponible</div>
+                }
+                @if (!Model.Archived)
+                {
+                    <div class="product-stock" style="margin-left: 450px">Disponible</div>
+                }
+                <hr>
+                @{
+                    Html.BeginForm("Recommend", "Options",new {@id=@Model.IdClasificado});
+                }
+                <button type="submit" class="btn btn-sm" style="background: transparent;border: 1px solid black">Recomendar</button>
+                @{
+                    Html.EndForm();
+                }
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Notifications")
+        <div class="container-fluid">
+            <div class="col-md-12 product-info">
+                <ul id="myTab" class="nav nav-tabs nav_tabs">
+
+                    <li class="active"><a href="#service-one" data-toggle="tab">Descripcion del Producto</a></li>
+                    <li><a href="#service-two" data-toggle="tab">Informacion de Usuario</a></li>
+                  
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="service-one">
+
+                        <section class="container product-info">
+                            <div class="row" style="margin-left: 400px">
+                                @Html.Label("Fecha Creacion")
+                                @Html.ValueFor(x => x.FechaCreacion)
+                            </div>
+                            
+                            <div class="row" style="margin-left: 400px">
+                                @Html.LabelFor(x => x.Categoria)
+                                @Html.ValueFor(x => x.Categoria)
+                            </div>
+                            <div class="row" style="margin-left: 400px">
+                                @Html.LabelFor(x => x.Negocio)
+                                @Html.ValueFor(x => x.Negocio)
+                            </div>
+                            <div style="margin-left: 400px">
+                                @if (Model.UrlVideo != "none")
+                                {
+                                    <iframe width="560" height="315" src="@Model.UrlVideo" frameborder="0" allowfullscreen></iframe>
+
+                                }
+                            </div>
+                         
+                           
+                           
+                            <h3 style="margin-left: 450px">@Model.Titulo</h3>
+                            <p style="margin-left: 450px">@Model.Descripcion</p>
+                        </section>
+
+                    </div>
+                    <div class="tab-pane fade" id="service-two">
+
+                        <section class="container">
+                            <div class="row" style="margin-left: 450px">
+                                @Html.LabelFor(x => x.Usuario.Nombre)
+                                @Html.ValueFor(x => x.Usuario.Nombre)
+                            </div>
+                            <div class="row" style="margin-left: 450px">
+                                @Html.LabelFor(x => x.Usuario.Correo)
+                                @Html.ValueFor(x => x.Usuario.Correo)
+                            </div>
+                            <div class="row">
+                                <form role="form" method="POST">
+                                    <h3 class="text-center">Contactar Usuario</h3>
+                                    <div class="invisible"style="margin-left: 550px">@Html.ValueFor(x => x.IdClasificado)</div>
+                                   
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <input id="name" name="Nombre" type="text" placeholder="Nombre" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <input id="name" name="IdClasificado" type="hidden" style="color:white;" value="@Model.IdClasificado" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <input id="email" name="Correo" type="email" placeholder="Correo Electrónico" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <textarea class="form-control" id="message" name="Mensaje" placeholder="Ingrese su mensaje aqui..." rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <button type="submit" class="btn btn-sm" style="background: transparent;border: 1px solid black">Enviar Mensaje</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>

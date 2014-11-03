@@ -43,74 +43,24 @@ namespace Clasificados.Controllers
             clasificado.IdUsuario = usuario.Id;
             var classified = new Classified
             {
+                FechaCreacion = DateTime.Now.ToString("d"),
                 Titulo = clasificado.Titulo,
                 Categoria = clasificado.Categoria,
                 IdUsuario = clasificado.IdUsuario,
                 Negocio = clasificado.Negocio,
                 Descripcion = clasificado.Descripcion,
                 Precio = clasificado.Precio,
-                UrlVideo = clasificado.UrlVideo
+                UrlVideo = clasificado.UrlVideo,
+                UrlImg0 = clasificado.UrlImg0,
+                UrlImg1 = clasificado.UrlImg1,
+                UrlImg2 = clasificado.UrlImg2,
+                UrlImg3 = clasificado.UrlImg3,
+                UrlImg4 = clasificado.UrlImg4,
+                UrlImg5 = clasificado.UrlImg5,
             };
            
             _writeOnlyRepository.Create(classified);
-            var cls = _readOnlyRepository.FirstOrDefault<Classified>(x => x.Titulo == classified.Titulo);
-            clasificado.IdClasificado = cls.Id;
             
-            if (!String.IsNullOrEmpty(clasificado.UrlImg0))
-            {
-                var clsimage = new ClassifiedImage
-                {
-                    IdClassified = clasificado.IdClasificado,
-                    UrlIamgen = clasificado.UrlImg0,
-                };
-                _writeOnlyRepository.Create(clsimage);
-            }
-            if (!String.IsNullOrEmpty(clasificado.UrlImg1))
-            {
-                var clsimage = new ClassifiedImage
-                {
-                    IdClassified = clasificado.IdClasificado,
-                    UrlIamgen = clasificado.UrlImg1,
-                };
-                _writeOnlyRepository.Create(clsimage);
-            }
-            if (!String.IsNullOrEmpty(clasificado.UrlImg2))
-            {
-                var clsimage = new ClassifiedImage
-                {
-                    IdClassified = clasificado.IdClasificado,
-                    UrlIamgen = clasificado.UrlImg2,
-                };
-                _writeOnlyRepository.Create(clsimage);
-            }
-            if (!String.IsNullOrEmpty(clasificado.UrlImg3))
-            {
-                var clsimage = new ClassifiedImage
-                {
-                    IdClassified = clasificado.IdClasificado,
-                    UrlIamgen = clasificado.UrlImg3,
-                };
-                _writeOnlyRepository.Create(clsimage);
-            }
-            if (!String.IsNullOrEmpty(clasificado.UrlImg4))
-            {
-                var clsimage = new ClassifiedImage
-                {
-                    IdClassified = clasificado.IdClasificado,
-                    UrlIamgen = clasificado.UrlImg4,
-                };
-                _writeOnlyRepository.Create(clsimage);
-            }
-            if (!String.IsNullOrEmpty(clasificado.UrlImg5))
-            {
-                var clsimage = new ClassifiedImage
-                {
-                    IdClassified = clasificado.IdClasificado,
-                    UrlIamgen = clasificado.UrlImg5,
-                };
-                _writeOnlyRepository.Create(clsimage);
-            }
-
             this.AddNotification("Clasificado registrado.",NotificationType.Success);
             return View(clasificado);
         }
