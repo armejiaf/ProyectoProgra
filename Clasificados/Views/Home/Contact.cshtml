@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-left: 450px">
-                        @{ var contactCaptcha = CaptchaHelper.GetSampleCaptcha(); }
+                        @{ var contactCaptcha = new MvcCaptcha("SampleCaptcha") { UserInputClientID = "CaptchaCode" }; }
                         @Html.Captcha(contactCaptcha)
                         <div style="margin-top: 10px"></div>
                         <input id="CaptchaCode" name="CaptchaCode" type="text" placeholder="Ingrese Captcha aqui..." class="form-control">

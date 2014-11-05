@@ -156,7 +156,6 @@
     <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\CaptchaHelper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
