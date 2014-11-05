@@ -76,7 +76,7 @@
                             <textarea class="form-control" id="message" name="Mensaje" placeholder="Ingrese su mensaje aqui..." rows="5"></textarea>
                         </div>
                     </div>
-                    <div style="margin-left: 450px">
+                    <div class="form-group" style="margin-left: 450px">
                         @{ var contactCaptcha = CaptchaHelper.GetSampleCaptcha(); }
                         @Html.Captcha(contactCaptcha)
                         <div style="margin-top: 10px"></div>

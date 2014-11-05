@@ -16,8 +16,10 @@ using Domain.Entities;
 using Domain.Services;
 using RestSharp.Extensions;
 
+
 namespace Clasificados.Controllers
 {
+
     public class HomeController : Controller
     {
         readonly IReadOnlyRepository _readOnlyRepository;
