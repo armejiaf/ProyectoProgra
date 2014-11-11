@@ -23,6 +23,10 @@ namespace Clasificados
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/bootsrap.min.css",
+                      "~/Content/DetalleCategory.css",
+                      "~/Content/Q&A.css",
+                      "~/Content/TermsConditions.css",
                       "~/Content/site.css",
                       "~/Content/Login.css",
                       "~/Content/Register.css"));
