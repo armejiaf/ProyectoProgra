@@ -2,8 +2,7 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-       
+    <head>      
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
         <title>Perfil</title>
@@ -31,8 +30,8 @@
                                 <td>@clasificados.Titulo</td>
                                 <td>@clasificados.Categoria</td>
                                 <td>@clasificados.Descripcion</td>
-                                <td><a href="#" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Editar</a></td>
-                                <td><a href="#" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Archivar</a></td>
+                                <td><a href="@Url.Action("EditClasificado", "Account", new { @id = @clasificados.Id })" class=" btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Editar</a></td>
+                                <td><a href="@Url.Action("ArchiveClasificado","Account",new {@id= @clasificados.Id})" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Archivar</a></td>
 
                             </tr>
                         }
@@ -43,7 +42,34 @@
                 </div>
             </div>
         </div>
-        
+        <div class="row">
+            <label style="text-align: center; margin-left: 450px;font-size: 50px">Mis Clasificados Archivados</label>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Categoria</th>
+                            <th>Descripcion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var clasificados in Model.ClasificadosArchive)
+                        {
+                            <tr>
+                                <td>@clasificados.Titulo</td>
+                                <td>@clasificados.Categoria</td>
+                                <td>@clasificados.Descripcion</td>
+                                <td><a href="@Url.Action("RestoreClasificado","Account",new {@id= @clasificados.Id})" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Restaurar</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="col-md-12 text-center">
+                    <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                </div>
+            </div>
+        </div>
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
     </body>

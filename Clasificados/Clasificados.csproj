@@ -191,6 +191,7 @@
     <Compile Include="Models\ClassifiedModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\DetalleCategoryModel.cs" />
+    <Compile Include="Models\EditClasiffiedModel.cs" />
     <Compile Include="Models\IndexModel.cs" />
     <Compile Include="Models\QuestionDetailModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
@@ -261,6 +262,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\TermsConditions.cshtml" />
+    <Content Include="Views\Account\EditClasificado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

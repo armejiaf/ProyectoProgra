@@ -24,6 +24,32 @@ namespace Clasificados.Controllers
             _readOnlyRepository = readOnlyRepository;
         }
 
+        public ActionResult EditClasificado(long id)
+        {
+            var clasificado = _readOnlyRepository.GetById<Classified>(id);
+            var edit = new EditClassiffiedModel
+            {
+                IdClasificado = clasificado.Id,
+            };
+            return View(edit);
+        }
+        [HttpPost]
+        public ActionResult EditClasificado(EditClassiffiedModel edit)
+        {
+            var clasificado = _readOnlyRepository.GetById<Classified>(edit.IdClasificado);
+            if(edit.Negocio!=null)
+                clasificado.Negocio = edit.Negocio;
+            if(edit.Precio!=null)
+                clasificado.Precio = edit.Precio;
+            if(edit.Titulo!=null)
+                clasificado.Titulo = edit.Titulo;
+            if(edit.Descripcion!=null)
+                clasificado.Descripcion = edit.Descripcion;
+            if (edit.Categoria != null)
+                clasificado.Categoria = edit.Categoria;
+            _writeOnlyRepository.Update(clasificado);
+            return RedirectToAction("UserProfile");
+        }
         public ActionResult NewClassified()
         {
             if ((string) Session["User"] == "Anonymous")
@@ -85,19 +111,21 @@ namespace Clasificados.Controllers
             {
                 var user = _readOnlyRepository.FirstOrDefault<User>(x => x.Nombre == (string) Session["User"]);
                 var clasificados = _readOnlyRepository.GetAll<Classified>().ToList();
-                var clasif = clasificados.Where(x => x.IdUsuario == user.Id).ToList();
+                var clasif = clasificados.Where(x => x.IdUsuario == user.Id && x.Archived==false).ToList();
+                var clsarchive = clasificados.Where(x => x.IdUsuario == user.Id && x.Archived).ToList();
                 var profile = new UserProfileModel
                 {
                     UserId = user.Id,
                     Correo = user.Correo,
                     Nombre = user.Nombre,
-                    Clasificados = clasif
+                    Clasificados = clasif,
+                    ClasificadosArchive = clsarchive
                     
                 };
                 return View(profile);
 
             }
-            this.AddNotification("Ingrese sesion para poder ver su perfil",NotificationType.Info);
+            this.AddNotification("Ingrese sesion para poder ver su perfil.",NotificationType.Info);
             return RedirectToAction("Login");
         }
      
@@ -328,6 +356,22 @@ namespace Clasificados.Controllers
             var passFinal = BitConverter.ToString(pass2);
             register.Password = passFinal.Replace("-", "");
             register.Salt = salt.Replace("-", "");
+        }
+
+        public ActionResult ArchiveClasificado(long id)
+        {
+            var clasificado = _readOnlyRepository.GetById<Classified>(id);
+            clasificado.Archive();
+            _writeOnlyRepository.Update(clasificado);
+            return RedirectToAction("UserProfile");
+        }
+
+        public ActionResult RestoreClasificado(long id)
+        {
+            var clasificado = _readOnlyRepository.GetById<Classified>(id);
+            clasificado.Activate();
+            _writeOnlyRepository.Update(clasificado);
+            return RedirectToAction("UserProfile");
         }
     }
 }

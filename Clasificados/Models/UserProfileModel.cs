@@ -10,5 +10,6 @@ namespace Clasificados.Models
         public string Correo { get; set; }
         public string Nombre { get; set; }
         public List<Classified> Clasificados { get; set; }
+        public List<Classified> ClasificadosArchive { get; set; }
     }
 }

@@ -1,0 +1,82 @@
+﻿@model Clasificados.Models.EditClassiffiedModel
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
+        <title>Editar Clasificado</title>
+    </head>
+    <body>
+        <div class="container">
+            <h3 class="text-center">Editar Clasificado</h3>
+            @Html.Partial("_Notifications")
+            <div class="row">
+                <form role="form" method="POST">
+                    @Html.ValidationSummary(true)
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Titulo del Clasificado:</label>
+                            <input name="Titulo" placeholder="Ingrese nombre de Titulo..." class="form-control">
+                        </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Titulo)</div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Categoria:</label>
+                            @Html.DropDownListFor(x => x.Categoria, new SelectList(
+                                new List<object>
+                                {
+                                    new {value="Bienes Raices",text="Bienes Raices"},
+                                    new {value="Automovil",text="Automovil"},
+                                    new{value="Nautica",text="Nautica"},
+                                    new{value="Computación",text="Computación"},
+                                    new{value="Joyería",text="Joyería"},
+                                    new{value="Música",text="Música"},
+                                    new{value="Arte",text="Árte"},
+                                    new{value="Hogar",text="Hogar"},
+                                    new{value="Deportes",text="Deportes"},
+                                    new{value="Telefonía",text="Telefonía"},
+                                    new{value="Animales",text="Animales"}
+                                }, "value", "text", 11))
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Tipo de Negocio:</label>
+                            @Html.DropDownListFor(x => x.Negocio, new SelectList(
+                                new List<object>
+                                {
+                                    new {value="Venta",text="Venta"},
+                                    new {value="Renta",text="Renta"},
+                                    new{value="Compra",text="Compra"}
+                                }, "value", "text", 3))
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <label>Precio:</label>
+                            <input name="Precio" placeholder="Precio" class="form-control">
+                        </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Precio)</div>
+                        <input id="name" name="IdClasificado" type="hidden" style="color:white;" value="@Model.IdClasificado" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <textarea class="form-control" name="Descripcion" placeholder="Ingrese su descripcion aqui..." rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                            <input type="submit" value="Editar" class="btn-lg  " style=" margin-left: 450px;background: white;text-align: center;border:1px solid black">
+                            <a href="@Url.Action("UserProfile","Account")" class="btn-lg " style="background:white;text-align: center;border:1px solid black">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
