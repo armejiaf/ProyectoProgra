@@ -3,6 +3,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+       
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
         <title>Nuevo Clasificado</title>
     </head>
     <body>
@@ -11,49 +15,55 @@
             @Html.Partial("_Notifications")
             <div class="row">
                 <form role="form" method="POST">
+                    @Html.ValidationSummary(true)
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <label>Titulo del Clasificado:</label>
-                            <input id="name" name="Titulo" type="text" placeholder="Ingrese nombre de Titulo..." class="form-control">
+                            <input id="name" name="Titulo" placeholder="Ingrese nombre de Titulo..." class="form-control">
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Titulo)</div>
                     </div>
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <label>Categoria:</label>
                             @Html.DropDownListFor(x => x.Categoria, new SelectList(
-                            new List<object>
-                            {
-                                new {value="Bienes Raices",text="Bienes Raices"},
-                                new {value="Automovil",text="Automovil"},
-                                new{value="Nautica",text="Nautica"},
-                                new{value="Computación",text="Computación"},
-                                new{value="Joyería",text="Joyería"},
-                                new{value="Música",text="Música"},
-                                new{value="Arte",text="Árte"},
-                                new{value="Hogar",text="Hogar"},
-                                new{value="Deportes",text="Deportes"},
-                                new{value="Telefonía",text="Telefonía"},
-                                new{value="Animales",text="Animales"}
-                            }, "value", "text", 11))
+                                new List<object>
+                                {
+                                    new {value="Bienes Raices",text="Bienes Raices"},
+                                    new {value="Automovil",text="Automovil"},
+                                    new{value="Nautica",text="Nautica"},
+                                    new{value="Computación",text="Computación"},
+                                    new{value="Joyería",text="Joyería"},
+                                    new{value="Música",text="Música"},
+                                    new{value="Arte",text="Árte"},
+                                    new{value="Hogar",text="Hogar"},
+                                    new{value="Deportes",text="Deportes"},
+                                    new{value="Telefonía",text="Telefonía"},
+                                    new{value="Animales",text="Animales"}
+                                }, "value", "text", 11))
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Categoria)</div>
                     </div>
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <label>Tipo de Negocio:</label>
                             @Html.DropDownListFor(x => x.Negocio, new SelectList(
-                            new List<object>
-                            {
-                                new {value="Venta",text="Venta"},
-                                new {value="Renta",text="Renta"},
-                                new{value="Compra",text="Compra"}
-                            }, "value", "text", 3))
+                                new List<object>
+                                {
+                                    new {value="Venta",text="Venta"},
+                                    new {value="Renta",text="Renta"},
+                                    new{value="Compra",text="Compra"}
+                                }, "value", "text", 3))
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Negocio)</div>
+
                     </div>
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <label>Precio:</label>
-                            <input id="text" name="Precio" type="text" placeholder="Precio" class="form-control">
+                            <input id="text" name="Precio" placeholder="Precio" class="form-control">
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Precio)</div>
                     </div>
                     <div class="form-group">
                         <div style="margin-left: 450px">
@@ -123,6 +133,8 @@
                         <div style="margin-left: 450px">
                             <textarea class="form-control" id="message" name="Descripcion" placeholder="Ponga una descripcion aqui..." rows="5"></textarea>
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Descripcion)</div>
+
                     </div>
                 
                     <div class="form-group">

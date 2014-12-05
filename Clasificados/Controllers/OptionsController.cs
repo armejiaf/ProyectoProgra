@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using System.Windows.Forms;
 using Clasificados.Extensions;
 using Clasificados.Mail;
 using Clasificados.Models;
 using Domain.Services;
 using Domain.Entities;
-using FluentNHibernate.Conventions.AcceptanceCriteria;
-using NHibernate.Hql.Ast.ANTLR;
 
 namespace Clasificados.Controllers
 {
@@ -25,11 +21,6 @@ namespace Clasificados.Controllers
         {
             _readOnlyRepository = readOnlyRepository;
             _writeOnlyRepository = writeOnlyRepository;
-        }
-
-        public ActionResult TermsConditions()
-        {
-            return View();
         }
 
         public ActionResult FrequentQuestions()
@@ -48,25 +39,23 @@ namespace Clasificados.Controllers
         [HttpPost]
         public ActionResult FrequentQuestions(QuestionModel question)
         {
-            switch (ValidateQuestion(question))
+            if (ModelState.IsValid)
             {
-                case true:
-                    break;
-                case false:
-                    question.PreguntasFrecuentes = _readOnlyRepository.GetAll<QuestionAnswer>().ToList();
-                    return View(question);
+                var qA = new QuestionAnswer
+                {
+                    Fecha = DateTime.Now.ToString("d"),
+                    Correo = question.Correo,
+                    Nombre = question.Nombre,
+                    Pregunta = question.Pregunta,
+                    Respuesta = "none"
+                };
+                _writeOnlyRepository.Create(qA);
+                this.AddNotification("Hemos recibido su pregunta. Le contestaremos con la mayor brevedad posible.", NotificationType.Success);
+                MailService.SendQuestionMessage(question.Correo, question.Nombre, question.Pregunta);
+                question.PreguntasFrecuentes = _readOnlyRepository.GetAll<QuestionAnswer>().ToList();
+                return View(question);
             }
-            var qA = new QuestionAnswer
-            {
-                Fecha = DateTime.Now.ToString("d"),
-                Correo = question.Correo,
-                Nombre = question.Nombre,
-                Pregunta = question.Pregunta,
-                Respuesta="none"
-            };
-            _writeOnlyRepository.Create(qA);
-            this.AddNotification("Hemos recibido su pregunta. Le contestaremos con la mayor brevedad posible.",NotificationType.Success);
-            MailService.SendQuestionMessage(question.Correo, question.Nombre, question.Pregunta);
+            this.AddNotification("Pregunta Invalida!",NotificationType.Warning);
             question.PreguntasFrecuentes = _readOnlyRepository.GetAll<QuestionAnswer>().ToList();
             return View(question);
         }
@@ -205,61 +194,44 @@ namespace Clasificados.Controllers
         [HttpPost]
         public ActionResult DetalleCategory(DetalleCategoryModel detalle)
         {
-            switch (ValidateContact(detalle))
+            if (ModelState.IsValid)
             {
-                case true:
-                    break;
-                case false:
-                    return RedirectToAction("DetalleCategory",detalle.IdClasificado);
+                var contt = new ContactInfo
+                {
+                    Nombre = detalle.Nombre,
+                    Correo = detalle.Correo,
+                    Mensaje = detalle.Mensaje
+                };
+                _writeOnlyRepository.Create(contt);
+                var clas = _readOnlyRepository.GetById<Classified>(detalle.IdClasificado);
+                detalle.Usuario = _readOnlyRepository.GetById<User>(clas.IdUsuario);
+                MailService.SendContactMessageToUser(detalle.Correo, detalle.Nombre, detalle.Mensaje, detalle.Usuario.Correo);
+                this.AddNotification("Se ha enviado el mensaje.", NotificationType.Success);
+                return RedirectToAction("DetalleCategory", detalle.IdClasificado);
             }
 
-            var contt = new ContactInfo
-            {
-                Nombre = detalle.Nombre,
-                Correo = detalle.Correo,
-                Mensaje = detalle.Mensaje
-            };
-            _writeOnlyRepository.Create(contt);
-            var clas = _readOnlyRepository.GetById<Classified>(detalle.IdClasificado);
-            detalle.Usuario = _readOnlyRepository.GetById<User>(clas.IdUsuario);
-            MailService.SendContactMessageToUser(detalle.Correo, detalle.Nombre, detalle.Mensaje,detalle.Usuario.Correo);
-            this.AddNotification("Se ha enviado el mensaje.", NotificationType.Success);
+            this.AddNotification("No se pudo enviar mensaje a vendedor.", NotificationType.Warning);
             return RedirectToAction("DetalleCategory", detalle.IdClasificado);
         }
-        public ActionResult SimpleSearch()
+
+        public ActionResult SimpleSearch(string query)
         {
             
             var ss = new SimpleSearchModel
             {
                 Clasificados = _readOnlyRepository.GetAll<Classified>().ToList()
             };
-
+            var cls = ss.Clasificados.Where(x => x.Titulo.Contains(query)).ToList();
+            ss.Clasificados = cls;
+            if (ss.Clasificados.Count == 0 || query == null)
+            {
+                this.AddNotification("No se encontro ningun Clasificado con ese titulo!", NotificationType.Info);
+                return RedirectToAction("Index", "Home");
+            }
             
             return View(ss);
         }
 
-        [HttpPost]
-        public ActionResult SimpleSearch(SimpleSearchModel ss)
-        {
-            var simple = _readOnlyRepository.GetAll<Classified>().ToList();
-            if (!String.IsNullOrEmpty(ss.Search))
-            {
-                foreach (var classified in simple.Where(classified => classified.Titulo.Contains(ss.Search)))
-                {
-                    if(ss.Clasificados==null)
-                        ss.Clasificados = new List<Classified>(simple.Count);
-                    ss.Clasificados.Add(classified);
-                }
-            }
-            if (ss.Clasificados != null)
-            {
-                return View(ss);
-            }
-            this.AddNotification("No se encontro ningun Clasificado por ese Titulo", NotificationType.Info);
-            ss.Clasificados = _readOnlyRepository.GetAll<Classified>().ToList();
-            return View(ss);
-
-        }
 
         public ActionResult AdvanzedSearch()
         {
@@ -278,18 +250,12 @@ namespace Clasificados.Controllers
             
             if (!String.IsNullOrEmpty(advanz.Search))
             {
-                foreach (var classified in simple.Where(classified => classified.Categoria.Contains(advanz.Categoria)))
+                foreach (var classified in simple.Where(classified => classified.Categoria.Contains(advanz.Categoria) &&
+                    classified.Titulo.Contains(advanz.Search) && classified.Descripcion.Contains(advanz.Descripcion)))
                 {
-                    foreach (var classi in simple.Where(classi => classi.Titulo.Contains(advanz.Search)))
-                    {
-                        foreach (var clas in simple.Where(clas => clas.Descripcion.Contains(advanz.Descripcion)))
-                        {
-                            if (advanz.Clasificados == null)
+                              if (advanz.Clasificados == null)
                                 advanz.Clasificados = new List<Classified>(simple.Count());
-                            advanz.Clasificados.Add(classified);
-                        }
-                    }
-                    
+                            advanz.Clasificados.Add(classified);                    
                 }             
             }
             if (advanz.Clasificados != null)
@@ -301,44 +267,6 @@ namespace Clasificados.Controllers
             return View(advanz);
         }
 
-
-        private bool ValidateContact(DetalleCategoryModel detalle)
-        {
-            if (String.IsNullOrEmpty(detalle.Correo) || String.IsNullOrEmpty(detalle.Nombre) ||
-                String.IsNullOrEmpty(detalle.Mensaje))
-            {
-                this.AddNotification("Todos los campos son requeridos!", NotificationType.Error);
-                return false;
-            }
-            var x = detalle.Nombre.Replace(" ", string.Empty);
-            if (x.Any(t => !Char.IsLetter(t)))
-            {
-                this.AddNotification("El Nombre solo puede llevar letras!", NotificationType.Error);
-                return false;
-            }
-            if (detalle.Nombre.Length < 3 || detalle.Nombre.Length > 50)
-            {
-                this.AddNotification("El nombre debe tener mas de 3 caracteres y menos de 50!", NotificationType.Error);
-                return false;
-            }
-            var y = detalle.Mensaje.Split(null);
-            var count = y.Length;
-            if (count < 3 || detalle.Mensaje.Length > 250)
-            {
-                this.AddNotification("La pregunta debe tener al menos 3 palabras y menos de 250 caracteres!",
-                    NotificationType.Error);
-                return false;
-            }
-            switch (ValidateEmail(detalle.Correo))
-            {
-                case true:
-                    break;
-                case false:
-                    this.AddNotification("Correo Eletrónico no valido!", NotificationType.Error);
-                    return false;
-            }
-            return true;
-        }
 
         private void ValidarCampos(Classified detalle, DetalleCategoryModel detail, string defaultUrl)
         {
@@ -408,52 +336,6 @@ namespace Clasificados.Controllers
 
         }
 
-        private bool ValidateQuestion(QuestionModel question)
-        {
-            if (String.IsNullOrEmpty(question.Correo) || String.IsNullOrEmpty(question.Nombre) ||
-                String.IsNullOrEmpty(question.Pregunta))
-            {
-                this.AddNotification("Todos los campos son requeridos!", NotificationType.Error);
-                return false;
-            }
-            var x = question.Nombre.Replace(" ", string.Empty);
-            if (x.Any(t => !Char.IsLetter(t)))
-            {
-                this.AddNotification("El nombre solo puede llevar letras!", NotificationType.Error);
-                return false;
-            }
-            if (question.Nombre.Length < 3 || question.Nombre.Length > 50)
-            {
-                this.AddNotification("El nombre debe tener mas de 3 caracteres y menos de 50!", NotificationType.Error);
-                return false;
-            }
-            var y = question.Pregunta.Split(null);
-            var count = y.Length;
-            if (count < 3 || question.Pregunta.Length > 250)
-            {
-                this.AddNotification("La pregunta debe tener al menos 3 palabras y menos de 250 caracteres!", NotificationType.Error);
-                return false;
-            }
-            switch (ValidateEmail(question.Correo))
-            {
-                case true:
-                    break;
-                case false:
-                    this.AddNotification("Correo Eletrónico no valido!", NotificationType.Error);
-                    return false;
-            }
-            return true;
-        }
-
-        private static Boolean ValidateEmail(string email)
-        {
-            const string expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(email, expresion))
-            {
-                return Regex.Replace(email, expresion, String.Empty).Length == 0;
-            }
-            return false;
-        }
         private bool RemoteFileExists(string url)
         {
             try

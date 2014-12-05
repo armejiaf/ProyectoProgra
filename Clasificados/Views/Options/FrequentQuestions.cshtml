@@ -1,69 +1,80 @@
 ﻿@using Domain.Entities
 @model Clasificados.Models.QuestionModel
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Preguntas Frecuentes</title>
 
-<script type="text/javascript" src="~/Scripts/Q&A.js"></script>
-<link type="text/css" rel="stylesheet" href="/Content/TermsConditions.css" />
-<div class="container" style="margin-top: 50px">
-    <div class="row">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Fecha Pregunta</th>
-                        <th>Pregunta</th>
-                        <th>Respuesta</th>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-                    @foreach (var pregunta in Model.PreguntasFrecuentes)
-                    {
-                        <tr>
-                            <td>
-                                @Html.ActionLink(@pregunta.Id.ToString(), "Detalle", new { @id = @pregunta.Id }, null)
-                            </td>
-                            <td>@pregunta.Fecha</td>
-                            <td>@pregunta.Pregunta</td>
-                            <td>@pregunta.Respuesta</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <div class="container" style="margin-top: 50px">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha Pregunta</th>
+                                <th>Pregunta</th>
+                                <th>Respuesta</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @foreach (var pregunta in Model.PreguntasFrecuentes)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(@pregunta.Id.ToString(), "Detalle", new { @id = @pregunta.Id }, null)
+                                    </td>
+                                    <td>@pregunta.Fecha</td>
+                                    <td>@pregunta.Pregunta</td>
+                                    <td>@pregunta.Respuesta</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="col-md-12 text-center">
+                        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                    </div>
+                </div>       
+            </div>
+
+            @Html.Partial("_Notifications")
+
+            <div class="row">
+                <form role="form" method="POST">
+                    <h3 class="text-center">Pregunta</h3>
+
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <input id="name" name="Nombre" type="text" placeholder="Nombre" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <input id="email" name="Correo" type="email" placeholder="Correo Electrónico" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <textarea class="form-control" id="message" name="Pregunta" placeholder="Ingrese su pregunta aqui..." rows="5"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="margin-left: 450px">
+                            <button type="submit" class="btn btn-lg" style="background: transparent;border: 1px solid black">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="col-md-12 text-center">
-            <ul class="pagination pagination-lg pager" id="myPager"></ul>
-        </div>
-    </div>
-    
-    @Html.Partial("_Notifications")
-    
-    <div class="row">
-        <form role="form"  method="POST">
-                <h3 class="text-center">Pregunta</h3>
- 
-                <div class="form-group">
-                    <div style="margin-left: 450px">
-                        <input id="name" name="Nombre" type="text" placeholder="Nombre" class="form-control">
-                    </div>
-                </div>
-                   
-                <div class="form-group">
-                    <div style="margin-left: 450px">
-                        <input id="email" name="Correo" type="email" placeholder="Correo Electrónico" class="form-control">
-                    </div>
-                </div>
-                       
-                <div class="form-group">
-                    <div style="margin-left: 450px">
-                        <textarea class="form-control" id="message" name="Pregunta" placeholder="Ingrese su pregunta aqui..." rows="5"></textarea>
-                    </div>
-                </div>
-                       
-                <div class="form-group">
-                    <div style="margin-left: 450px">
-                        <button type="submit" class="btn btn-lg" style="background: transparent;border: 1px solid black">Submit</button>
-                    </div>
-                </div>
-        </form>
-    </div>
-</div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+     
+    </body>
+</html>

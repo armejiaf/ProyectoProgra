@@ -1,7 +1,12 @@
 ﻿@model Clasificados.Models.IndexModel
+          
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
 <div class="jumbotron" style="align-self: center;background-color: white;text-align: center">
     <h1 style="font-family: Courier">Clasificados</h1>
 </div>
+@Html.Partial("_Notifications")
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-4 column">

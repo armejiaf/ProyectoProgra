@@ -16,6 +16,7 @@ namespace Domain.Entities
         public virtual string Categoria { get; set; }
         public virtual string Descripcion { get; set; }
         public virtual string Precio { get; set; }
+       // public virtual bool DesactivadoPorAdmin { get; set; }
         public virtual string Negocio { get; set; }
         public virtual string UrlImg0 { get; set; }
         public virtual string UrlImg1 { get; set; }

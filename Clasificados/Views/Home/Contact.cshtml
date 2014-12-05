@@ -1,4 +1,6 @@
-﻿@using BotDetect.Web.UI.Mvc
+﻿@using BotDetect.Web.UI
+@using BotDetect.Web.UI.Mvc
+@using CaptchaMvc.HtmlHelpers
 @model Clasificados.Models.ContactModel
 
 
@@ -10,7 +12,10 @@
         <link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl"rel="stylesheet" type="text/css" />
 
         <title>Contact</title>
-
+     
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
         <script src="http://maps.googleapis.com/maps/api/js?
                 key=AIzaSyBsHwFd2p_uH3qh80fl4kXJL6HFREqulnU=true">
         </script>
@@ -57,31 +62,41 @@
 
             <div class="row">
                 <form role="form" method="POST">
+                    @Html.ValidationSummary(true)
                     <h3 class="text-center">Contactanos</h3>
 
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <input id="name" name="Nombre" type="text" placeholder="Nombre" class="form-control">
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Nombre)</div>
                     </div>
 
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <input id="email" name="Correo" type="email" placeholder="Correo Electrónico" class="form-control">
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Correo)</div>
                     </div>
 
                     <div class="form-group">
                         <div style="margin-left: 450px">
                             <textarea class="form-control" id="message" name="Mensaje" placeholder="Ingrese su mensaje aqui..." rows="5"></textarea>
                         </div>
+                        <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Mensaje)</div>
                     </div>
+                    
+                    
+
                     <div class="form-group" style="margin-left: 450px">
-                        @{ var contactCaptcha = new MvcCaptcha("SampleCaptcha") { UserInputClientID = "CaptchaCode" }; }
-                        @Html.Captcha(contactCaptcha)
-                        <div style="margin-top: 10px"></div>
-                        <input id="CaptchaCode" name="CaptchaCode" type="text" placeholder="Ingrese Captcha aqui..." class="form-control">
-                        <div style="margin-top: 10px"></div>
+                        @{
+                            var captcha = Html.Captcha("Refresh", "Input", 5, "Is required field.", false);
+
+                        }
+                        @captcha
+                        <p style="color:red">
+                            @Html.ValidationMessage(captcha.BuildInfo.InputElementId, new { @style = "width:50px" })
+                        </p> 
                     </div>
                     
 

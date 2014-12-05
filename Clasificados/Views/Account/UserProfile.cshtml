@@ -1,4 +1,50 @@
-﻿@model dynamic
+﻿@model Clasificados.Models.UserProfileModel
 
+<!DOCTYPE html>
+<html>
+    <head>
+       
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <title>Perfil</title>
+    </head>
+    <body>
+        <h1 style="text-align: center; margin-top: 50px">@Model.Nombre</h1>
+        <div style="margin-left: 515px">
+            @Model.Correo
+        </div>
+        <div class="row">
+            <label style="text-align: center; margin-left: 450px;font-size: 50px">Mis Clasificados</label>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Categoria</th>
+                            <th>Descripcion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var clasificados in Model.Clasificados)
+                        {
+                            <tr>
+                                <td>@clasificados.Titulo</td>
+                                <td>@clasificados.Categoria</td>
+                                <td>@clasificados.Descripcion</td>
+                                <td><a href="#" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Editar</a></td>
+                                <td><a href="#" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Archivar</a></td>
 
-<h2 style="text-align: center">Perfil</h2>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="col-md-12 text-center">
+                    <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                </div>
+            </div>
+        </div>
+        
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+    </body>
+</html>

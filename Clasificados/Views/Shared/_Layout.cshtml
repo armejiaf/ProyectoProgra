@@ -1,6 +1,4 @@
-﻿@using System.Web.UI.WebControls
-@using FizzWare.NBuilder
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>Clasificados</title>
@@ -27,21 +25,23 @@
                         <li>
 
                         </li>
-                        <li>@Html.ActionLink("Terminos y Condiciones","TermsConditions","Options")</li>
+                        <li>@Html.ActionLink("Terminos y Condiciones","TermsConditions","Home")</li>
                         <li>@Html.ActionLink("Preguntas Frecuentes","FrequentQuestions","Options")</li>
                         <li>@Html.ActionLink("Tabla por Categoria", "CategoryInfo", "Options")</li>
                         <li class="divider"></li>
-                        <li>@Html.ActionLink("Busqueda Simple","SimpleSearch","Options")</li>
                         <li>@Html.ActionLink("Busqueda Avanzada","AdvanzedSearch","Options")</li>
                     </ul>
-                </li>
+                </li>       
             </ul>
+            <form class="navbar-form navbar-left" action="/Options/SimpleSearch" method="GET">
+                <input type="text" class="form-control col-lg-8" placeholder="Search" name="query">
+            </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     @if ((string) Session["User"] == "Anonymous")
                     {
                         var name = "["+(string) Session["User"]+"]";
-                        @Html.ActionLink(name,"Login","Home");
+                        @Html.ActionLink(name,"Login","Account");
                     }
                     @if ((string) Session["User"] != "Anonymous")
                     {
@@ -58,8 +58,8 @@
                             <li>
                             
                             </li>
-                            <li>@Html.ActionLink("Login","Login","Home")</li>
-                            <li>@Html.ActionLink("Registrarse","Register","Home")</li>
+                            <li>@Html.ActionLink("Login","Login","Account")</li>
+                            <li>@Html.ActionLink("Registrarse","Register","Account")</li>
                         </ul>
                     }
                     @if ((string) Session["User"] != "Anonymous")
@@ -71,7 +71,7 @@
                             </li>
                             <li>@Html.ActionLink("Crear Clasificado","NewClassified","Account")</li>
                             <li class="divider"></li>
-                            <li>@Html.ActionLink("Cerrar Sesion","Logout","Home")</li>
+                            <li>@Html.ActionLink("Cerrar Sesion","Logout","Account")</li>
                         </ul>
                     }
                 </li>

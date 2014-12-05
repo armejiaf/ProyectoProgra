@@ -1,0 +1,67 @@
+﻿@model Clasificados.Models.UserLoginModel
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+      
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
+    </head>
+    <body>
+    
+
+        <div class="container">
+            @Html.Partial("_Notifications")
+            <div class="omb_login">
+                <h3 class="omb_authTitle">Login o <a href="@Url.Action("Register","Account")">Registrarse</a></h3>
+                <div class="row omb_row-sm-offset-3 omb_socialButtons" style="margin-left: 150px">
+                    <div class="col-xs-4 col-sm-2">
+                        <a href="#" class="btn btn-sm btn-block omb_btn-facebook">
+                            <span class="hidden-xs">Facebook</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2">
+                        <a href="#" class="btn btn-sm btn-block omb_btn-twitter">
+                            <span class="hidden-xs">Twitter</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row omb_row-sm-offset-3 omb_loginOr">
+                    <div class="col-xs-12 col-sm-6">
+                        <hr class="omb_hrOr">
+                        <span class="omb_spanOr">o</span>
+                    </div>
+                </div>
+
+                <div class="row omb_row-sm-offset-3">
+                    <div class="col-xs-12 col-sm-6">
+                        <form class="omb_loginForm" autocomplete="off" method="POST">
+                            @Html.ValidationSummary(true)
+                            <div>
+                                <input type="email" class="form-control" name="Correo" style="text-align: center;margin-left: 150px" placeholder="Correo Electrónico">
+                            </div>
+                            <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Correo)</div>
+                            <div>
+                                <input type="password" class="form-control" name="Password" style="text-align: center;margin: 10px 0px 0px 150px" placeholder="Contraseña">
+                            </div>
+                            <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Password)</div>
+
+                            <button class="btn btn-block" style="background-color:white;margin-top: 10px;border:1px solid black;text-align: center" type="submit">Login</button>
+                        </form>
+                    </div>
+               
+                </div>
+                <div class="row">
+                    <div>
+                        <p style="margin-left:310px">
+                            <a href="@Url.Action("RecoverPassword","Account")">Recuperar Contraseña</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -17,19 +17,18 @@ namespace Clasificados
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/Q&A.js"));
-
+                         "~/Scripts/bootstrap.js",
+                          "~/Scripts/respond.js",
+                          "~/Scripts/Facebook.js", 
+                          "~/Scripts/Q&A.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/bootsrap.min.css",
-                      "~/Content/DetalleCategory.css",
-                      "~/Content/Q&A.css",
-                      "~/Content/TermsConditions.css",
                       "~/Content/site.css",
+                      "~/Content/DetalleCategory.css",
                       "~/Content/Login.css",
-                      "~/Content/Register.css"));
+                      "~/Content/Q&A.css",
+                      "~/Content/Register.css",
+                      "~/Content/TermsConditions.css"));
         }
     }
 }
