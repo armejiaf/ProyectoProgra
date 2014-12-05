@@ -5,13 +5,13 @@
         <title>Preguntas Frecuentes</title>
 
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
     </head>
     <body>
         <h2 style="text-align: center">Busqueda Simple</h2>
 
         @Html.Partial("_Notifications")
-
+    
         <div class="row">
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -31,11 +31,11 @@
                 </table>
                 <div class="col-md-12 text-center">
                     <ul class="pagination pagination-lg pager" id="myPager"></ul>
-                </div>
-            </div>    
+                </div> 
+            </div>   
+            
         </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
+     
     </body>
 </html>
 

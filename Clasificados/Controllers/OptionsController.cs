@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Clasificados.Extensions;
 using Clasificados.Mail;
@@ -213,7 +212,15 @@ namespace Clasificados.Controllers
             this.AddNotification("No se pudo enviar mensaje a vendedor.", NotificationType.Warning);
             return RedirectToAction("DetalleCategory", detalle.IdClasificado);
         }
-
+        [HttpPost]
+        public ActionResult ReportDenunciar(DetalleCategoryModel detalle,int id)
+        {      
+                var clas = _readOnlyRepository.GetById<Classified>(id);
+                var usuario = _readOnlyRepository.GetById<User>(clas.IdUsuario);
+                MailService.SendReportMessageToAdmin(usuario.Nombre, detalle.Categoria,clas.Id);
+                this.AddNotification("Se ha enviado la denuncia.", NotificationType.Success);
+                return RedirectToAction("DetalleCategory", new {id});    
+        }
         public ActionResult SimpleSearch(string query)
         {
             
@@ -221,7 +228,7 @@ namespace Clasificados.Controllers
             {
                 Clasificados = _readOnlyRepository.GetAll<Classified>().ToList()
             };
-            var cls = ss.Clasificados.Where(x => x.Titulo.Contains(query)).ToList();
+            var cls = ss.Clasificados.Where(x => x.Titulo.Contains(query) && x.Archived==false).ToList();
             ss.Clasificados = cls;
             if (ss.Clasificados.Count == 0 || query == null)
             {
@@ -239,7 +246,8 @@ namespace Clasificados.Controllers
             {
                 Clasificados = _readOnlyRepository.GetAll<Classified>().ToList()
             };
-
+            var filtro = advanz.Clasificados.Where(x => x.Archived == false).ToList();
+            advanz.Clasificados = filtro;
             return View(advanz);
         }
 
@@ -247,14 +255,15 @@ namespace Clasificados.Controllers
         public ActionResult AdvanzedSearch(AdvanzedSearchModel advanz)
         {
             var simple = _readOnlyRepository.GetAll<Classified>().ToList();
-            
+            var filtro = simple.Where(x => x.Archived == false).ToList();
+
             if (!String.IsNullOrEmpty(advanz.Search))
             {
-                foreach (var classified in simple.Where(classified => classified.Categoria.Contains(advanz.Categoria) &&
+                foreach (var classified in filtro.Where(classified => classified.Categoria.Contains(advanz.Categoria) &&
                     classified.Titulo.Contains(advanz.Search) && classified.Descripcion.Contains(advanz.Descripcion)))
                 {
                               if (advanz.Clasificados == null)
-                                advanz.Clasificados = new List<Classified>(simple.Count());
+                                advanz.Clasificados = new List<Classified>(filtro.Count());
                             advanz.Clasificados.Add(classified);                    
                 }             
             }
@@ -263,7 +272,7 @@ namespace Clasificados.Controllers
                 return View(advanz);
             }
             this.AddNotification("No se encontro ningun Clasificado!", NotificationType.Info);
-            advanz.Clasificados = _readOnlyRepository.GetAll<Classified>().ToList();
+            advanz.Clasificados = filtro;
             return View(advanz);
         }
 
@@ -354,6 +363,12 @@ namespace Clasificados.Controllers
         public ActionResult Recommend(long id)
         {
             var css = _readOnlyRepository.GetById<Classified>(id);
+            var client = _readOnlyRepository.FirstOrDefault<User>(x => x.Nombre == (string) Session["User"]);
+            if (css.IdUsuario == client.Id)
+            {
+                this.AddNotification("No se puede recomendar su propio clasificado!",NotificationType.Warning);
+                return RedirectToAction("Index", "Home");
+            }
             css.Recomendado += 1;
             _writeOnlyRepository.Update(css);
             return RedirectToAction("Index","Home");

@@ -47,13 +47,19 @@
                     <div class="product-stock" style="margin-left: 450px">Disponible</div>
                 }
                 <hr>
-                @{
-                    Html.BeginForm("Recommend", "Options",new {@id=@Model.IdClasificado});
-                }
-                <button type="submit" class="btn btn-sm" style="background: transparent;border: 1px solid black">Recomendar</button>
-                @{
-                    Html.EndForm();
-                }
+               
+                   @{
+                   Html.BeginForm("Recommend", "Options",new {@id=@Model.IdClasificado});
+                   }
+                        @if ((string) Session["User"] != "Anonymous")
+                        {
+                             <button type="submit" class="btn btn-sm" style="background: transparent;border: 1px solid black">Recomendar</button>
+                        }
+                    @{
+                        Html.EndForm();
+                    } 
+               
+                
             </div>
         </div>
     </div>
@@ -64,6 +70,7 @@
 
                     <li class="active"><a href="#service-one" data-toggle="tab">Descripcion del Producto</a></li>
                     <li><a href="#service-two" data-toggle="tab">Informacion de Usuario</a></li>
+                    <li><a href="#service-three" data-toggle="tab">Reportar/Denunciar Clasificado</a></li>
                   
                 </ul>
                 <div id="myTabContent" class="tab-content">
@@ -144,7 +151,34 @@
                                 </form>
                             </div>
                         </section>
+                    </div>
+                    <div class="tab-pane fade in active" id="service-three">
 
+                        <section class="container">
+                            <div class="row">
+                                @using (@Html.BeginForm("ReportDenunciar", "Options", new { @id = @Model.IdClasificado })) { 
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <input id="name" name="IdClasificado" type="hidden" style="color:white;" value="@Model.IdClasificado" class="form-control">
+                                            @Html.DropDownListFor(x => x.Categoria, new SelectList(
+                                                new List<object>
+                                                {
+                                                    new {value="Material Inapropiado",text="Material Inapropiado"},
+                                                    new {value="Anuncio Ofensivo",text="Anuncio Ofensivo"},
+                                                    new{value="Anuncio Fraudalento",text="Anuncio Fraudalento"},
+                                                    new{value="Otro Motivo",text="Otro Motivo"}
+                                                }, "value", "text", 4))
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div style="margin-left: 400px">
+                                            <button type="submit" class="btn btn-sm" style="background: transparent;border: 1px solid black">Reportar/Denunciar</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                                    }
+</section>
                     </div>
                 </div>
                 <hr>

@@ -126,5 +126,27 @@ namespace Clasificados.Mail
             request.Method = Method.POST;
             client.Execute(request);
         }
+
+        public static void SendReportMessageToAdmin(string nombre, string denuncia, long id)
+        {
+            var client = new RestClient
+            {
+                BaseUrl = "https://api.mailgun.net/v2",
+                Authenticator =
+                    new HttpBasicAuthenticator("api",
+                    "key-f32fda75e27073a696d42c8ed5c999d2")
+            };
+
+            var request = new RestRequest();
+            request.AddParameter("domain",
+            "app030ec7dc101b40c48a43d1e02635ebc0.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("to", "mejia561@hotmail.com");
+            request.AddParameter("subject", "Reportar/Denuncia");
+            var message = "Se reportado/denunciado el clasificado #"+id+" de"+nombre+" debido a la siguiente falta:"+denuncia;
+            request.AddParameter("html", "<html>" + message);
+            request.Method = Method.POST;
+            client.Execute(request);
+        }
     }
 }

@@ -102,6 +102,6 @@
 
 $(document).ready(function () {
 
-    $('#myTable').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: 10 });
+    $('#myTable0').pageMe({ pagerSelector: '#myPager0', showPrevNext: true, hidePageNumbers: false, perPage: 10 });
 
 });

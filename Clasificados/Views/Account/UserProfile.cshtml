@@ -5,6 +5,7 @@
     <head>      
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
         <title>Perfil</title>
     </head>
     <body>
@@ -23,7 +24,7 @@
                             <th>Descripcion</th>
                         </tr>
                     </thead>
-                    <tbody id="myTable">
+                    <tbody id="myTable0">
                         @foreach (var clasificados in Model.Clasificados)
                         {
                             <tr>
@@ -38,9 +39,10 @@
                     </tbody>
                 </table>
                 <div class="col-md-12 text-center">
-                    <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                    <ul class="pagination pagination-lg pager" id="myPager0"></ul>
                 </div>
             </div>
+            
         </div>
         <div class="row">
             <label style="text-align: center; margin-left: 450px;font-size: 50px">Mis Clasificados Archivados</label>
@@ -69,8 +71,8 @@
                     <ul class="pagination pagination-lg pager" id="myPager"></ul>
                 </div>
             </div>
+         
         </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
+     
     </body>
 </html>
