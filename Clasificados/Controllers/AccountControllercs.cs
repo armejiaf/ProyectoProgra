@@ -26,6 +26,11 @@ namespace Clasificados.Controllers
 
         public ActionResult EditClasificado(long id)
         {
+            if ((string)Session["User"] == "Anonymous")
+            {
+                this.AddNotification("No se puede realizar esta accion. Primero ingrese sesion", NotificationType.Info);
+                return RedirectToAction("Login");
+            }
             var clasificado = _readOnlyRepository.GetById<Classified>(id);
             var edit = new EditClassiffiedModel
             {
@@ -111,8 +116,8 @@ namespace Clasificados.Controllers
             {
                 var user = _readOnlyRepository.FirstOrDefault<User>(x => x.Nombre == (string) Session["User"]);
                 var clasificados = _readOnlyRepository.GetAll<Classified>().ToList();
-                var clasif = clasificados.Where(x => x.IdUsuario == user.Id && x.Archived==false).ToList();
-                var clsarchive = clasificados.Where(x => x.IdUsuario == user.Id && x.Archived).ToList();
+                var clasif = clasificados.Where(x => x.IdUsuario == user.Id && x.Archived==false && x.DesactivadoPorAdmin==false).ToList();
+                var clsarchive = clasificados.Where(x => x.IdUsuario == user.Id && x.Archived && x.DesactivadoPorAdmin==false).ToList();
                 var profile = new UserProfileModel
                 {
                     UserId = user.Id,
@@ -152,6 +157,7 @@ namespace Clasificados.Controllers
                 usuario.Nombre = register.Nombre;
                 usuario.Correo = register.Correo;
                 usuario.Password = register.Password;
+                usuario.Role = "user";
                 usuario.Salt = register.Salt;
                 _writeOnlyRepository.Create(usuario);
                 this.AddNotification("Se ha registrado exitosamente.", NotificationType.Success);
@@ -201,6 +207,7 @@ namespace Clasificados.Controllers
                     return View(login);
                 }
                 Session["User"] = usuario.Nombre;
+                Session["Role"] = usuario.Role;
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -360,6 +367,11 @@ namespace Clasificados.Controllers
 
         public ActionResult ArchiveClasificado(long id)
         {
+            if ((string)Session["User"] == "Anonymous")
+            {
+                this.AddNotification("Porfavor ingrese sesion!", NotificationType.Info);
+                return RedirectToAction("Login");
+            }
             var clasificado = _readOnlyRepository.GetById<Classified>(id);
             clasificado.Archive();
             _writeOnlyRepository.Update(clasificado);
@@ -368,6 +380,11 @@ namespace Clasificados.Controllers
 
         public ActionResult RestoreClasificado(long id)
         {
+            if ((string)Session["User"] == "Anonymous")
+            {
+                this.AddNotification("Porfavor ingrese sesion!", NotificationType.Info);
+                return RedirectToAction("Login");
+            }
             var clasificado = _readOnlyRepository.GetById<Classified>(id);
             clasificado.Activate();
             _writeOnlyRepository.Update(clasificado);

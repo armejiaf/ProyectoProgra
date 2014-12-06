@@ -21,6 +21,7 @@ namespace DatabaseDeployer.Seeders
             usuario.Nombre = "Allan Mejia";
             usuario.Password = "armf1993";
             usuario.Correo = "almesiete@gmail.com";
+            usuario.Role = "admin";
             EncryptUser(usuario);
             _session.Save(usuario);
         }

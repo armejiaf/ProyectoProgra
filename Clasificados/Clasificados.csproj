@@ -172,6 +172,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountControllercs.cs" />
+    <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Extensions\NotificationExtensions.cs" />
@@ -183,6 +184,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mail\MailService.cs" />
+    <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\AdvanzedSearchModel.cs" />
     <Compile Include="Models\CategryModel.cs" />
     <Compile Include="Models\ClassifiedModel.cs" />
@@ -260,6 +262,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\TermsConditions.cshtml" />
     <Content Include="Views\Account\EditClasificado.cshtml" />
+    <Content Include="Views\Administrador\Administrar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

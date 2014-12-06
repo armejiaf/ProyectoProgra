@@ -1,0 +1,162 @@
+﻿@model Clasificados.Models.AdminModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <title>Administrar</title>
+</head>
+
+<body>
+    <div class="row">
+        <label style="text-align: center; margin-left: 450px;font-size: 50px">Clasificados</label>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Categoria</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable0">
+                    @foreach (var clasificados in Model.Clasificados)
+                    {
+                        <tr>
+                            <td>@clasificados.Titulo</td>
+                            <td>@clasificados.Categoria</td>
+                            <td>@clasificados.Descripcion</td>
+                            <td><a href="@Url.Action("DesactivarClasificado", "Administrador", new { @id = @clasificados.Id })" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Desactivar</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager0"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label style="text-align: center; margin-left: 450px;font-size: 50px">Clasificados Desactivados</label>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Categoria</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable0">
+                    @foreach (var clasificados in Model.ClasificadosDesactivados)
+                    {
+                        <tr>
+                            <td>@clasificados.Titulo</td>
+                            <td>@clasificados.Categoria</td>
+                            <td>@clasificados.Descripcion</td>
+                            <td><a href="@Url.Action("ActivarClasificado", "Administrador", new { @id = @clasificados.Id })" class="btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Activar</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager0"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label style="text-align: center; margin-left: 450px;font-size: 50px">Preguntas Frecuentes </label>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Nombre de Persona</th>
+                        <th>Pregunta</th>
+            
+                    </tr>
+                </thead>
+                <tbody id="myTable0">
+                    @foreach (var pregunta in Model.Preguntas)
+                    {
+                        <tr>
+                            <td>@pregunta.Fecha</td>
+                            <td>@pregunta.Nombre</td>
+                            <td>@pregunta.Pregunta</td>
+                            <<td><a href="@Url.Action("ArchivarPregunta", "Administrador", new { @id = @pregunta.Id })" class=" btn btn-xs" style=" background: white;text-align: center;border:1px solid black">Archivar</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager0"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label style="text-align: center; margin-left: 450px;font-size: 50px">Preguntas Frecuentes Archivadas </label>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Nombre de Persona</th>
+                        <th>Pregunta</th>
+
+                    </tr>
+                </thead>
+                <tbody id="myTable0">
+                    @foreach (var pregunta in Model.PreguntasDesactivadas)
+                    {
+                        <tr>
+                            <td>@pregunta.Fecha</td>
+                            <td>@pregunta.Nombre</td>
+                            <td>@pregunta.Pregunta</td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager0"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label style="text-align: center; margin-left: 450px;font-size: 50px">Preguntas a Usuarios</label>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                       
+                        <th>Nombre de Persona</th>
+                        <th>Mensaje a Usuario</th>
+                        <th>Correo del Autor de la Pregunta</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable0">
+                    @foreach (var pusuario in Model.PreguntasUsuarios)
+                    {
+                        <tr>
+                           
+                            <td>@pusuario.Nombre</td>
+                            <td>@pusuario.Mensaje</td>
+                            <td>@pusuario.Correo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12 text-center">
+                <ul class="pagination pagination-lg pager" id="myPager0"></ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

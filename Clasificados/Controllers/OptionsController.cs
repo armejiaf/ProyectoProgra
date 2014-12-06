@@ -26,9 +26,9 @@ namespace Clasificados.Controllers
         {
             var questions = new QuestionModel
             {
-                PreguntasFrecuentes = _readOnlyRepository.GetAll<QuestionAnswer>().ToList()
+                PreguntasFrecuentes = _readOnlyRepository.GetAll<QuestionAnswer>().Where(x=>x.Archived==false).ToList()
             };
-            if(questions.PreguntasFrecuentes == null)
+            if(questions.PreguntasFrecuentes.Count==0)
                 this.AddNotification("En este momento no tenemos preguntas frecuentes en nuestra base de datos, pero puedes enviarnos"+
                                      " una y con gusto trabajaremos para contestartela.",NotificationType.Info);
 
@@ -195,7 +195,7 @@ namespace Clasificados.Controllers
         {
             if (ModelState.IsValid)
             {
-                var contt = new ContactInfo
+                var contt = new ContactUserInfo
                 {
                     Nombre = detalle.Nombre,
                     Correo = detalle.Correo,

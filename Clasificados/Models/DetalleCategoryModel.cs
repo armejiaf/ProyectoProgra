@@ -27,7 +27,7 @@ namespace Clasificados.Models
         public User Usuario { get; set; }
 
         [Required(ErrorMessage = "Su nombre es requerido!")]
-        [RegularExpression("[a-zA-Z]*", ErrorMessage = "El nombre solo puede tener letras!")]
+        [RegularExpression("[a-zA-Z _]*", ErrorMessage = "El nombre solo puede tener letras!")]
         [StringLength(50, ErrorMessage = "El nombre debe tener mas de 3 caracteres y menos de 50!", MinimumLength = 3)]
         [DataType(DataType.Text)]
         public string Nombre { get; set; }

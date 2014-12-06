@@ -33,7 +33,10 @@ namespace Clasificados.Controllers
             {
                 Session["User"] = "Anonymous";
             }
-
+            if (Session["Role"] == null)
+            {
+                Session["Role"] = "Anonymous";
+            }
             var index = new IndexModel
             {
                 ClasificadosRecientes = new List<Classified>(5),
@@ -41,7 +44,7 @@ namespace Clasificados.Controllers
                 ClasificadosRecomendados = new List<Classified>(11)
             };
 
-            var clasificados = _readOnlyRepository.GetAll<Classified>().ToArray();
+            var clasificados = _readOnlyRepository.GetAll<Classified>().Where(x=>x.Archived==false && x.DesactivadoPorAdmin==false).ToArray();
             var desc = from s in clasificados
                 orderby s.Visitas descending
                 select s;
