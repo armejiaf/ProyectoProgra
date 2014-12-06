@@ -13,6 +13,7 @@
         <div style="margin-left: 515px">
             @Model.Usuario.Correo
         </div>
+        @Html.Partial("_Notifications")
         <div class="row">
             <label style="text-align: center; margin-left: 450px;font-size: 50px">Mis Clasificados</label>
             <div class="table-responsive">
@@ -43,7 +44,10 @@
         <div class="row">
             <div class="btn-group">
                 <a href="@Url.Action("Index","Home")" class="btn" style="background: white; border: 1px solid black;text-align: center; margin-left: 450px">Retornar a Inicio</a>
-                <a href="#" class="btn" style="background: white; border: 1px solid black;text-align: center">Suscribirse</a>
+                @if ((string) Session["User"] != "Anonymous")
+                {
+                    <a href="@Url.Action("Suscribe","Account",new{@id=@Model.Usuario.Id})" class="btn" style="background: white; border: 1px solid black;text-align: center">Suscribirse</a>
+                } 
             </div>
         </div>
         <div class="row">

@@ -18,6 +18,8 @@
         public virtual string Correo { get; set; }
         public virtual string Password { get; set; }
         public virtual string Role { get; set; }
+        public virtual bool Miembro { get; set; }
+        public virtual int TotalClasificados { get; set; }
         public virtual string Salt { get; set; }
 
     }

@@ -8,8 +8,10 @@ using System.Web.Security;
 using Clasificados.Extensions;
 using Clasificados.Mail;
 using Clasificados.Models;
+using Clasificados.Twilio;
 using Domain.Entities;
 using Domain.Services;
+using NHibernate.Hql.Ast.ANTLR;
 
 namespace Clasificados.Controllers
 {
@@ -62,7 +64,12 @@ namespace Clasificados.Controllers
                 this.AddNotification("Porfavor ingrese sesion antes de crear clasificado",NotificationType.Info);
                 return RedirectToAction("Login");
             }
-                
+            var user = _readOnlyRepository.FirstOrDefault<User>(x => x.Nombre == (string) Session["User"]);
+            if (user.Miembro == false && user.TotalClasificados >= 5 && (string)Session["Role"] == "user")
+            {
+                this.AddNotification("Ha llegado a su limite de creacion. Si le agrado nuestra pagina hagase miembro.", NotificationType.Info);
+                return RedirectToAction("Index", "Home");
+            }
             return View(new ClassifiedModel());
         }
         [HttpPost]
@@ -96,12 +103,21 @@ namespace Clasificados.Controllers
                     UrlImg3 = clasificado.UrlImg3,
                     UrlImg4 = clasificado.UrlImg4,
                     UrlImg5 = clasificado.UrlImg5,
+                    Recomendado = 1
                 };
 
                 _writeOnlyRepository.Create(classified);
-
+                usuario.TotalClasificados += 1;
+                _writeOnlyRepository.Update(usuario);
+                var subscriptions = _readOnlyRepository.GetAll<Suscribtions>().ToList();
+                foreach (var sus in subscriptions)
+                {
+                    var subs = _readOnlyRepository.GetById<User>(sus.IdUsuarioSuscrito);
+                    TwilioService.SendSmsToSubscribers(subs.Nombre, classified.Titulo,usuario.Nombre);
+                }
+                
                 this.AddNotification("Clasificado registrado.", NotificationType.Success);
-                return View(clasificado);
+                return RedirectToAction("Index","Home");
             }
             this.AddNotification("No se pudo crear clasificado.", NotificationType.Error);
             return View(clasificado);
@@ -184,7 +200,7 @@ namespace Clasificados.Controllers
                     return View(login);
                 }
 
-                FormsAuthentication.SetAuthCookie(login.Correo, false);
+             
 
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -410,6 +426,32 @@ namespace Clasificados.Controllers
 
 
             return View(perfil);
+        }
+
+        public ActionResult Suscribe(long id)
+        {
+            var userclas = _readOnlyRepository.GetById<User>(id);
+            var usersus = _readOnlyRepository.FirstOrDefault<User>(x => x.Nombre == (string) Session["User"]);
+            if (userclas.Id == usersus.Id)
+            {
+                this.AddNotification("No se puede suscribir a su propio usuario.", NotificationType.Info);
+                return RedirectToAction("VerPerfil", new{id});
+            }
+            var suscribe = _readOnlyRepository.GetAll<Suscribtions>().ToList();
+            if (suscribe.Any(check => check.IdUsuarioClasificado == userclas.Id && check.IdUsuarioSuscrito == usersus.Id))
+            {
+                this.AddNotification("Ya esta suscrito.",NotificationType.Info);
+                return RedirectToAction("Index", "Home");
+            }
+            var sus = new Suscribtions
+            {
+                IdUsuarioClasificado = userclas.Id,
+                IdUsuarioSuscrito = usersus.Id
+            };
+            _writeOnlyRepository.Create(sus);
+            this.AddNotification("Se ha suscrito.",NotificationType.Info);
+            return RedirectToAction("VerPerfil", new {id});
+
         }
     }
 }
