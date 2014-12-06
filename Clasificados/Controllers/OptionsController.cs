@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Clasificados.Extensions;
 using Clasificados.Mail;
 using Clasificados.Models;
+using Clasificados.Twilio;
 using Domain.Services;
 using Domain.Entities;
 
@@ -160,7 +161,7 @@ namespace Clasificados.Controllers
         {
             if (id ==0)
             {
-                this.AddNotification("No se puede obtener detalle de objeto que no existe!",NotificationType.Warning);
+                this.AddNotification("Error al mostrar objeto!",NotificationType.Warning);
                 return RedirectToAction("CategoryInfo");
             }
             var detalle = _readOnlyRepository.GetById<Classified>(id);
@@ -205,6 +206,7 @@ namespace Clasificados.Controllers
                 var clas = _readOnlyRepository.GetById<Classified>(detalle.IdClasificado);
                 detalle.Usuario = _readOnlyRepository.GetById<User>(clas.IdUsuario);
                 MailService.SendContactMessageToUser(detalle.Correo, detalle.Nombre, detalle.Mensaje, detalle.Usuario.Correo);
+                TwilioService.SendSms(detalle.Mensaje,detalle.Correo,detalle.Nombre,clas.Titulo);
                 this.AddNotification("Se ha enviado el mensaje.", NotificationType.Success);
                 return RedirectToAction("DetalleCategory", detalle.IdClasificado);
             }

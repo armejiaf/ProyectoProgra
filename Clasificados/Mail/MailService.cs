@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using System;
+using RestSharp;
 
 namespace Clasificados.Mail
 {
@@ -9,7 +10,7 @@ namespace Clasificados.Mail
 
             var client = new RestClient
             {
-                BaseUrl = "https://api.mailgun.net/v2",
+                BaseUrl = new Uri("https://api.mailgun.net/v2"),
                 Authenticator =
                     new HttpBasicAuthenticator("api",
                     "key-f32fda75e27073a696d42c8ed5c999d2")
@@ -34,7 +35,7 @@ namespace Clasificados.Mail
         {
             var client = new RestClient
             {
-                BaseUrl = "https://api.mailgun.net/v2",
+                BaseUrl = new Uri("https://api.mailgun.net/v2"),
                 Authenticator =
                     new HttpBasicAuthenticator("api",
                     "key-f32fda75e27073a696d42c8ed5c999d2")
@@ -58,7 +59,7 @@ namespace Clasificados.Mail
         {
             var client = new RestClient
             {
-                BaseUrl = "https://api.mailgun.net/v2",
+                BaseUrl = new Uri("https://api.mailgun.net/v2"),
                 Authenticator =
                     new HttpBasicAuthenticator("api",
                     "key-f32fda75e27073a696d42c8ed5c999d2")
@@ -82,7 +83,7 @@ namespace Clasificados.Mail
         {
             var client = new RestClient
             {
-                BaseUrl = "https://api.mailgun.net/v2",
+                BaseUrl = new Uri("https://api.mailgun.net/v2"),
                 Authenticator =
                     new HttpBasicAuthenticator("api",
                     "key-f32fda75e27073a696d42c8ed5c999d2")
@@ -106,7 +107,7 @@ namespace Clasificados.Mail
         {
             var client = new RestClient
             {
-                BaseUrl = "https://api.mailgun.net/v2",
+                BaseUrl = new Uri("https://api.mailgun.net/v2"),
                 Authenticator =
                     new HttpBasicAuthenticator("api",
                     "key-f32fda75e27073a696d42c8ed5c999d2")
@@ -131,7 +132,7 @@ namespace Clasificados.Mail
         {
             var client = new RestClient
             {
-                BaseUrl = "https://api.mailgun.net/v2",
+                BaseUrl = new Uri("https://api.mailgun.net/v2"),
                 Authenticator =
                     new HttpBasicAuthenticator("api",
                     "key-f32fda75e27073a696d42c8ed5c999d2")
