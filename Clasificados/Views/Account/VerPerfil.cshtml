@@ -1,0 +1,52 @@
+﻿@model Clasificados.Models.VerPerfilModel
+
+<!DOCTYPE html>
+<html>
+    <head>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
+        <title>Perfil</title>
+    </head>
+    <body>
+        <h1 style="text-align: center; margin-top: 50px">@Model.Usuario.Nombre</h1>
+        <div style="margin-left: 515px">
+            @Model.Usuario.Correo
+        </div>
+        <div class="row">
+            <label style="text-align: center; margin-left: 450px;font-size: 50px">Mis Clasificados</label>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Categoria</th>
+                            <th>Descripcion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable0">
+                        @foreach (var clasificados in Model.Clasificados)
+                        {
+                            <tr>
+                                <td>@Html.ActionLink(clasificados.Titulo, "DetalleCategory", "Options", new { @id = @clasificados.Id }, null)</td>
+                                <td>@clasificados.Categoria</td>
+                                <td>@clasificados.Descripcion</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="col-md-12 text-center">
+                    <ul class="pagination pagination-lg pager" id="myPager0"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="btn-group">
+                <a href="@Url.Action("Index","Home")" class="btn" style="background: white; border: 1px solid black;text-align: center; margin-left: 450px">Retornar a Inicio</a>
+                <a href="#" class="btn" style="background: white; border: 1px solid black;text-align: center">Suscribirse</a>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+    </body>
+</html>

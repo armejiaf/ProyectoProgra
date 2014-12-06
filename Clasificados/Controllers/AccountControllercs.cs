@@ -390,5 +390,26 @@ namespace Clasificados.Controllers
             _writeOnlyRepository.Update(clasificado);
             return RedirectToAction("UserProfile");
         }
+
+        public ActionResult VerPerfil(long id)
+        {
+            
+            var usuario = _readOnlyRepository.GetById<User>(id);
+            if (usuario.Nombre == null)
+            {
+                this.AddNotification("No existe usuario.",NotificationType.Info);
+                return RedirectToAction("Index", "Home");
+            }
+            var clasificados = _readOnlyRepository.GetAll<Classified>().Where(x => x.IdUsuario == id &&
+                x.Archived==false && x.DesactivadoPorAdmin==false).ToList();
+            var perfil = new VerPerfilModel
+            {
+                Usuario = usuario,
+                Clasificados = clasificados
+            };
+
+
+            return View(perfil);
+        }
     }
 }
