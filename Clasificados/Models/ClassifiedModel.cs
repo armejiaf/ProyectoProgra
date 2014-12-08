@@ -29,7 +29,6 @@ namespace Clasificados.Models
         [Required(ErrorMessage = "Negocio es requerido.")]
         public string Negocio { get; set; }
 
-       
         public string UrlImg0 { get; set; }
 
         public string UrlImg1 { get; set; }

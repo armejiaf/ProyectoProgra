@@ -1,0 +1,50 @@
+﻿@model Clasificados.Models.MangeProfileModel
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <title>Admnistrar Perfil</title>
+</head>
+<body>
+    <div class="container">
+        <h3 class="text-center">Administrar Perfil</h3>
+        @Html.Partial("_Notifications")
+        <div class="row">
+            <form role="form" method="POST">
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div style="margin-left: 450px">
+                        <label>Ingrese Numero de Telefono:</label>
+                        <input name="Telefono" placeholder="Ingrese numero de Telefono..." class="form-control">
+                    </div>
+                    <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.Telefono)</div>
+                </div>
+                <div class="form-group">
+                    <div style="margin-left: 450px">
+                        <label>Tipo de Usuario:</label>
+                        @Html.DropDownListFor(x => x.Miembro, new SelectList(
+                            new List<object>
+                            {
+                                new {value=false,text="Free User"},
+                                new {value=true,text="Member User"},                               
+                            }, "value", "text", 2))
+                    </div>
+                    <div style="margin-left: 450px">
+                        <p>Si usted escoge <strong>Member User</strong> esta de acuerdo con los <strong style="background-color: chartreuse ">Terminos y Condiciones</strong> y con pagar <strong>$5</strong>Mensuales</p>
+                    </div>
+                </div>   
+                <div class="btn-group">
+                    <input type="submit" value="Editar" class="btn-lg  " style=" margin-left: 450px;background: white;text-align: center;border:1px solid black">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

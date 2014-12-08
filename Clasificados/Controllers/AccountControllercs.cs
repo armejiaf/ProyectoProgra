@@ -174,6 +174,7 @@ namespace Clasificados.Controllers
                 usuario.Correo = register.Correo;
                 usuario.Password = register.Password;
                 usuario.Role = "user";
+                usuario.Miembro = register.Miembro;
                 usuario.Salt = register.Salt;
                 _writeOnlyRepository.Create(usuario);
                 this.AddNotification("Se ha registrado exitosamente.", NotificationType.Success);
@@ -228,7 +229,7 @@ namespace Clasificados.Controllers
             }
             return View();
         }
-        [Authorize]
+        
         public ActionResult RecoverPassword()
         {
             return View(new UserRecoverPasswordModel());
@@ -452,6 +453,40 @@ namespace Clasificados.Controllers
             this.AddNotification("Se ha suscrito.",NotificationType.Info);
             return RedirectToAction("VerPerfil", new {id});
 
+        }
+
+        public ActionResult ManageProfile(long id)
+        {
+            if ((string) Session["User"] == "Anonymous")
+            {
+                this.AddNotification("Debe ingresar sesion para poder manejar un perfil!",NotificationType.Info);
+                return RedirectToAction("Login");
+            }
+            var user = _readOnlyRepository.GetById<User>(id);
+            var manage = new MangeProfileModel
+            {
+            
+                Miembro = user.Miembro,
+                Telefono = user.Telefono
+            };
+            return View(manage);
+        }
+
+        [HttpPost]
+        public ActionResult ManageProfile(MangeProfileModel manage)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _readOnlyRepository.FirstOrDefault<User>(x => x.Nombre == (string) Session["User"]);
+                if (manage.Telefono != null)
+                {
+                    user.Telefono = manage.Telefono;
+                }
+                user.Miembro = manage.Miembro;
+                _writeOnlyRepository.Update(user);
+                return RedirectToAction("UserProfile");
+            }
+            return View(manage);
         }
     }
 }

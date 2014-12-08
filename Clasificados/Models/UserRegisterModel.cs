@@ -29,7 +29,8 @@ namespace Clasificados.Models
         [RegularExpression("[a-zA-Z0-9]*", ErrorMessage = "La contraseña solo puede tener numeros y letras!")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
-       
+
+        public bool Miembro { get; set; }
         public string Salt { get; set; }
     }
 }

@@ -37,10 +37,23 @@
                             </div>
                             <div style="text-align: center;margin-left: 150px">@Html.ValidationMessageFor(x => x.ConfirmPassword)</div>
                         </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                    <label>Tipo de Usuario:</label>
+                                    @Html.DropDownListFor(x => x.Miembro, new SelectList(
+                                        new List<object>
+                                        {
+                                            new {value=false,text="Free User"},
+                                            new {value=true,text="Member User"},
+                                        }, "value", "text", 2))
+                                <p>Si usted escoge <strong>Member User</strong> esta de acuerdo con los <strong style="background-color: chartreuse">Terminos y Condiciones</strong> y con pagar <strong>$5</strong>Mensuales</p>
+                            </div>
+                        </div>
 
-                        <input type="submit" value="Register" class="btn btn-block " style=" margin-left: 20px;background: white;text-align: center;border:1px solid black">
 
-                    </form>
+                            <input type="submit" value="Register" class="btn btn-block " style=" margin-left: 20px;background: white;text-align: center;border:1px solid black">
+
+</form>
                 </div>
             </div>
         </div>

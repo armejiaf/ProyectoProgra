@@ -13,6 +13,9 @@
         <div style="margin-left: 515px">
             @Model.Correo
         </div>
+        <div></div>
+        <a href="@Url.Action("ManageProfile","Account",new {@id= @Model.UserId})" class="btn btn-xs" style=" margin-left: 450px;background: white; text-align: center; border: 1px solid black">Manejar Perfil</a>
+
         <div class="row">
             <label style="text-align: center; margin-left: 450px;font-size: 50px">Mis Clasificados</label>
             <div class="table-responsive">
